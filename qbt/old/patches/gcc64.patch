@@ -1,0 +1,86 @@
+diff -ruN --binary 1/src/src.pro 2/src/src.pro
+--- 1/src/src.pro	2012-12-22 17:14:22.785801500 +0400
++++ 2/src/src.pro	2012-12-23 19:33:11.567968500 +0400
+@@ -52,10 +52,6 @@
+ # Fast concatenation (Qt >= 4.6)
+ DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
+ 
+-# Fixes compilation with Boost >= v1.46 where boost
+-# filesystem v3 is the default.
+-DEFINES += BOOST_FILESYSTEM_VERSION=2
+-
+ INCLUDEPATH += $$PWD
+ 
+ 
+diff -ruN --binary 1/winconf-mingw.pri 2/winconf-mingw.pri
+--- 1/winconf-mingw.pri	2012-08-10 20:17:02.439062200 +0400
++++ 2/winconf-mingw.pri	2012-09-17 15:03:10.069763600 +0400
+@@ -6,17 +6,13 @@
+ 
+ #Adapt the lib names/versions accordingly
+ CONFIG(debug, debug|release) {
+-  LIBS += libtorrent \
+-          libboost_system-mgw45-mt-d-1_47 \
+-          libboost_filesystem-mgw45-mt-d-1_47 \
+-          libboost_thread-mgw45-mt-d-1_47
++  LIBS += libtorrent.dll \
++          libboost_system
+ } else {
+-  LIBS += libtorrent \
+-          libboost_system-mgw45-mt-1_47 \
+-          libboost_filesystem-mgw45-mt-1_47 \
+-          libboost_thread-mgw45-mt-1_47
++  LIBS += libtorrent.dll \
++          libboost_system
+ }
+ 
+ LIBS += libadvapi32 libshell32
+-LIBS += libcrypto.dll libssl.dll libwsock32 libws2_32 libz libiconv.dll
++LIBS += libcrypto.dll libssl.dll libwsock32 libws2_32
+ LIBS += libpowrprof
+ LIBS += advapi32.lib shell32.lib crypt32.lib
+diff -ruN --binary 1/winconf.pri 2/winconf.pri
+--- 1/winconf.pri	2012-12-22 17:14:25.989984800 +0400
++++ 2/winconf.pri	2012-12-23 19:38:21.942381100 +0400
+@@ -1,28 +1,34 @@
+ # Adapt these paths on Windows
+ 
+ #Point this to the boost include folder
+-INCLUDEPATH += $$quote(C:/qBittorrent/boost_1_51_0)
++INCLUDEPATH += $$quote(T:/_outdir/Boost/Boost64_G/include)
+ #Point this to the libtorrent include folder
+-INCLUDEPATH += $$quote(C:/qBittorrent/RC_0_16/include)
++INCLUDEPATH += $$quote(T:/_outdir/libtorrent/libtorrent64_G/include)
++#OpenSSL include path
++INCLUDEPATH += $$quote(T:/_outdir/OpenSSL/OpenSSL64_G/include)
+ 
+ #Point this to the boost lib folder
+-LIBS += $$quote(-LC:/qBittorrent/boost_1_51_0/stage/lib)
++LIBS += $$quote(-LT:/_outdir/Boost/Boost64_G/lib)
+ #Point this to the libtorrent lib folder
+-LIBS += $$quote(-LC:/qBittorrent/RC_0_16/bin/<path-according-to-the-build-options-chosen>)
++LIBS += $$quote(-LT:/_outdir/libtorrent/libtorrent64_G/lib)
++#OpenSSL lib path
++LIBS += $$quote(-LT:/_outdir/OpenSSL/OpenSSL64_G/lib)
+ 
+ # LIBTORRENT DEFINES
+ DEFINES += BOOST_ALL_NO_LIB
++DEFINES += BOOST_ASIO_ENABLE_CANCELIO
+ DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
+-DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
++DEFINES += BOOST_ASIO_DYN_LINK
++DEFINES += BOOST_ALL_DYN_LINK
+ DEFINES += BOOST_EXCEPTION_DISABLE
+-DEFINES += BOOST_SYSTEM_STATIC_LINK=1
+ DEFINES += TORRENT_USE_OPENSSL
++DEFINES += TORRENT_LINKING_SHARED
+ DEFINES += UNICODE
+ DEFINES += _UNICODE
+ DEFINES += WIN32
+ DEFINES += _WIN32
+ DEFINES += WIN32_LEAN_AND_MEAN
+-DEFINES += _WIN32_WINNT=0x0500
++DEFINES += _WIN32_WINNT=0x0600
+ DEFINES += _WIN32_IE=0x0500
+ DEFINES += _CRT_SECURE_NO_DEPRECATE
+ DEFINES += _SCL_SECURE_NO_DEPRECATE

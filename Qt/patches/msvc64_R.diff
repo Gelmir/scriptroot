@@ -1,0 +1,48 @@
+diff --binary -ruN 1/mkspecs/win32-msvc2010/qmake.conf 2/mkspecs/win32-msvc2010/qmake.conf
+--- 1/mkspecs/win32-msvc2010/qmake.conf	2012-11-23 14:11:21.000000000 +0400
++++ 2/mkspecs/win32-msvc2010/qmake.conf	2012-12-24 00:50:29.630385800 +0400
+@@ -16,12 +16,12 @@
+ QMAKE_LEXFLAGS          =
+ QMAKE_YACC              = byacc
+ QMAKE_YACCFLAGS         = -d
+-QMAKE_CFLAGS            = -nologo -Zm200 -Zc:wchar_t-
++QMAKE_CFLAGS            = -nologo -Zm200 -Zc:wchar_t- -favor:blend
+ QMAKE_CFLAGS_WARN_ON    = -W3
+ QMAKE_CFLAGS_WARN_OFF   = -W0
+ QMAKE_CFLAGS_RELEASE    = -O2 -MD
+ QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO += -O2 -MD -Zi
+-QMAKE_CFLAGS_DEBUG      = -Zi -MDd
++QMAKE_CFLAGS_DEBUG      = -Od -Zi -MDd
+ QMAKE_CFLAGS_YACC       =
+ QMAKE_CFLAGS_LTCG       = -GL
+ QMAKE_CFLAGS_MP         = -MP
+@@ -56,9 +56,9 @@
+ 
+ QMAKE_LINK              = link
+ QMAKE_LFLAGS            = /NOLOGO /DYNAMICBASE /NXCOMPAT
+-QMAKE_LFLAGS_RELEASE    = /INCREMENTAL:NO
++QMAKE_LFLAGS_RELEASE    = /INCREMENTAL:NO /OPT:REF /OPT:ICF=5
+ QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO = /DEBUG /OPT:REF
+-QMAKE_LFLAGS_DEBUG      = /DEBUG
++QMAKE_LFLAGS_DEBUG      = /DEBUG /INCREMENTAL:NO
+ QMAKE_LFLAGS_CONSOLE    = /SUBSYSTEM:CONSOLE
+ QMAKE_LFLAGS_WINDOWS    = /SUBSYSTEM:WINDOWS
+ QMAKE_LFLAGS_EXE        = \"/MANIFESTDEPENDENCY:type=\'win32\' name=\'Microsoft.Windows.Common-Controls\' version=\'6.0.0.0\' publicKeyToken=\'6595b64144ccf1df\' language=\'*\' processorArchitecture=\'*\'\"
+diff --binary -ruN 1/qmake/Makefile.win32 2/qmake/Makefile.win32
+--- 1/qmake/Makefile.win32	2012-11-23 14:11:21.000000000 +0400
++++ 2/qmake/Makefile.win32	2012-12-24 00:50:57.841564400 +0400
+@@ -42,12 +42,12 @@
+               -DQT_NO_COMPRESS -DUNICODE -DHAVE_QCONFIG_CPP -DQT_BUILD_QMAKE -DQT_NO_THREAD \
+               -DQT_NO_QOBJECT -DQT_NO_GEOM_VARIANT -DQT_NO_DATASTREAM -DQT_NO_PCRE -DQT_BOOTSTRAPPED \
+               -DQLIBRARYINFO_EPOCROOT
+-CFLAGS   = -Yuqmake_pch.h -FIqmake_pch.h -Fpqmake_pch.pch $(CFLAGS_BARE) $(CFLAGS)
++CFLAGS   = $(CFLAGS_BARE) $(CFLAGS) -favor:blend -GL -O2
+ 
+ CXXFLAGS_BARE = $(CFLAGS_BARE)
+ CXXFLAGS = $(CFLAGS)
+ 
+-LFLAGS	    =
++LFLAGS	    = /NOLOGO /LTCG /OPT:REF /OPT:ICF=5
+ LIBS	    = ole32.lib advapi32.lib
+ LINKQMAKE   = $(LINK) $(LFLAGS) -OUT:qmake.exe $(OBJS) $(QTOBJS) $(LIBS)
+ ADDCLEAN    = vc60.pdb vc70.pdb qmake.pdb qmake.ilk

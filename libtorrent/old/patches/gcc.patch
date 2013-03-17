@@ -1,0 +1,31 @@
+diff --binary -ruN 1/Jamfile 2/Jamfile
+--- 1/Jamfile	2012-12-15 10:16:30.000000000 +0400
++++ 2/Jamfile	2013-01-07 02:15:18.820624000 +0400
+@@ -271,7 +271,6 @@
+ 		# appears to have some types not fulle exported)
+ 		result += <cflags>-fvisibility=hidden ;
+ 		result += <cxxflags>-fvisibility-inlines-hidden ;
+-		result += <linkflags>-W1,-Bsymbolic ;
+ 	}
+ 
+ 	return $(result) ;
+@@ -410,8 +409,8 @@
+ feature export-extra : off on : composite propagated ;
+ 
+ # required for openssl on windows
+-lib ssleay32 : : <name>ssleay32 ;
+-lib libeay32 : : <name>libeay32 ;
++lib ssleay32 : : <name>crypto.dll ;
++lib libeay32 : : <name>ssl.dll ;
+ lib advapi32 : : <name>Advapi32 ;
+ lib user32 : : <name>User32 ;
+ lib shell32 : : <name>shell32 ;
+diff --binary -ruN 1/src/asio_ssl.cpp 2/src/asio_ssl.cpp
+--- 1/src/asio_ssl.cpp	2012-04-12 04:37:09.000000000 +0400
++++ 2/src/asio_ssl.cpp	2013-01-07 02:01:25.669971300 +0400
+@@ -1,4 +1,5 @@
+ // builds all boost.asio SSL source as a separate compilation unit
++#include <limits.h>
+ #include <boost/version.hpp>
+ 
+ #if BOOST_VERSION >= 104610
