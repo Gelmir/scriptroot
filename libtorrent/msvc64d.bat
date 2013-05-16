@@ -28,13 +28,11 @@ IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 IF NOT DEFINED RC (
-  "C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\libtorrent-0.16.9.7z -o%SOURCEROOT%\libtorrent
+  "C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\libtorrent-0.16.10.7z -o%SOURCEROOT%\libtorrent
   patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  IF NOT DEFINED NO_TAINT (
-    patch --binary -p0 -Nfi %SCRIPTROOT%\libtorrent\patches\disk_pool.diff 
-    IF ERRORLEVEL 1 GOTO FAIL
-  )
+  REM IF NOT DEFINED NO_TAINT (
+  REM )
 ) ELSE (
   XCOPY /Y /E /Q /I C:\Users\Dayman\Documents\vcs\libtorrent %SOURCEROOT%\libtorrent\
   COPY /Y %SCRIPTROOT%\libtorrent\patches\export_fix.patch %SOURCEROOT%\libtorrent\
@@ -42,13 +40,8 @@ IF NOT DEFINED RC (
   IF ERRORLEVEL 1 GOTO FAIL
   patch -p1 -Nfi %SOURCEROOT%\libtorrent\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  IF NOT DEFINED NO_TAINT (
-    COPY /Y %SCRIPTROOT%\libtorrent\patches\disk_pool.diff %SOURCEROOT%\libtorrent\
-    unix2dos %SOURCEROOT%\libtorrent\disk_pool.diff
-    IF ERRORLEVEL 1 GOTO FAIL
-    patch --binary -p0 -Nfi %SOURCEROOT%\libtorrent\disk_pool.diff 
-    IF ERRORLEVEL 1 GOTO FAIL
-  )
+  REM IF NOT DEFINED NO_TAINT (
+  REM )
 )
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 :: Disable asserts and invariant checks, we only need symbols; about invariant checks btw: http://kaba.hilvi.org/pastel/pastel/sys/ensure.htm
