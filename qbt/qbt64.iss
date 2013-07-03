@@ -5,8 +5,8 @@
 ; "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" "/dMyFilesRoot=%INST_DIR%" "/dPACKDIR=%PACKAGEDIR%" "/dMyAppVersion=%QBT_VERSION%" "/dMyIcon=%SOURCEROOT%\qbittorrent\src\qbittorrent.ico" "/fqBittorrent-%QBT_VERSION%-x64-setup" "/o%PACKAGEDIR%" "%SCRIPTROOT%\qbt\qbt64.iss"
 
 #define MyAppName "qBittorrent (x64 Edition)"
-; Leaving blank, not sure if publisher == app author
-#define MyAppPublisher ""
+#define MyAppPublisher "The qBittorrent project"
+#define MyAppCopyright "Copyright ©2006-2013 The qBittorrent project"
 #define MyAppURL "http://www.qbittorrent.org/"
 #define MyAppExeName "qbittorrent.exe"
 #define MyAppPdbName "qbittorrent.pdb"
@@ -20,6 +20,7 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
+AppCopyright={#MyAppCopyright}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
