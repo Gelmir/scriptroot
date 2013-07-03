@@ -31,6 +31,8 @@ IF NOT DEFINED RC (
   "C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\libtorrent-0.16.10.7z -o%SOURCEROOT%\libtorrent
   patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
+  patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\boost_1_54_fix.patch
+  IF ERRORLEVEL 1 GOTO FAIL
   REM IF NOT DEFINED NO_TAINT (
   REM )
 ) ELSE (

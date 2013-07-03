@@ -1,0 +1,11 @@
+--- a/branches/RC_0_16/include/libtorrent/disk_buffer_pool.hpp
++++ b/branches/RC_0_16/include/libtorrent/disk_buffer_pool.hpp
+@@ -32,6 +32,8 @@
+ 
+ #ifndef TORRENT_DISK_BUFFER_POOL
+ #define TORRENT_DISK_BUFFER_POOL
++
++#include <boost/utility.hpp>
+ 
+ #include "libtorrent/config.hpp"
+ #include "libtorrent/thread.hpp"
