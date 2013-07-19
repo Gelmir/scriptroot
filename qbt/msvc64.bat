@@ -103,7 +103,8 @@ IF ERRORLEVEL 1 GOTO FAIL
 CD ..\
 MD build
 CD build
-qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow"
+qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" 
+:: "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING"
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
