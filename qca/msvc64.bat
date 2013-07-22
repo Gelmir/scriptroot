@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\qca RD /S /Q %SOURCEROOT%\qca
 MD %SOURCEROOT%\qca
 CD %SOURCEROOT%\qca
-XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\vcs\qca %SOURCEROOT%\qca\
+XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\qca %SOURCEROOT%\qca\
 :: Install plugins to qca folder, not qt folder
 :: \x22 stands for \"
 :: Had to use hex instead of escape string, otherwise cmd.exe redirection won't work
