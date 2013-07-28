@@ -17,7 +17,7 @@ mkdir -pv "${INST_DIR}"
 
 cd "${G_SOURCEROOT}/OpenSSL"
 "/c/Program Files/7-Zip/7z.exe" x /t/_compressed_sources/OpenSSL-1.0.1e.7z -o"${G_SOURCEROOT}"/OpenSSL
-# LFLAGS seem not to have any effect move -Wls to CFLAGS
+# LFLAGS seem not to have any effect move -Wl,s to CFLAGS
 # Seems to NOT use SHARED_LDFLAGS in any way - dump everyhting in CFLAGS
  _CFLAGS_="-O2 -march=i686 -mmmx -msse -msse2 -fomit-frame-pointer -fpredictive-commoning -pipe -fno-exceptions -finline-small-functions -fstack-protector-all -Wl,-O1 -Wl,--as-needed -Wl,-s -shared-libgcc -Wl,--nxcompat -Wl,--dynamicbase"
 _LDFLAGS_="${_CFLAGS_}"

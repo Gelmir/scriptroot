@@ -19,13 +19,13 @@ CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\libtorrent-0.16.8.7z -o%SOURCEROOT%\libtorrent
+"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\libtorrent-0.16.10.7z -o%SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\export_fix.patch
 IF ERRORLEVEL 1 GOTO FAIL
 patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\gcc.patch
 IF ERRORLEVEL 1 GOTO FAIL
-patch --binary -p0 -Nfi %SOURCEROOT%\libtorrent\trim.patch
+patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\boost_1_54_fix.patch
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 SET LC_ALL=C
