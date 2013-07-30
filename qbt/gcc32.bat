@@ -35,7 +35,7 @@ patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\gcc32.patch
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\Qt\Qt_G\bin;%PATH%"
 CD .\src
-REM lupdate -no-obsolete ./src.pro
+lupdate -no-obsolete ./src.pro
 IF ERRORLEVEL 1 GOTO FAIL
 CD ..\
 MD build
