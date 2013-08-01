@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\QT-4.8.4.7z -o%SOURCEROOT%\Qt
+"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\QT-4.8.5.7z -o%SOURCEROOT%\Qt
 patch --binary -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc64_R.diff
 IF ERRORLEVEL 1 GOTO FAIL
 :: Remove shitload of _HAS_TR1 redifinition warnings on msvc2010

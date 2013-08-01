@@ -28,7 +28,7 @@ SET "PATH=%BUILDROOT%\Qt\Qt64\bin;T:\Python27;C:\Program Files\7-Zip;%BUILDROOT%
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\QT-4.8.4.7z -o%SOURCEROOT%\Qt
+"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\QT-4.8.5.7z -o%SOURCEROOT%\Qt
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
 MD %SOURCEROOT%\QtCreator
 CD %SOURCEROOT%\QtCreator
@@ -73,7 +73,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"
 SET "PATH=%BUILDROOT%\Qt\Qt64\bin;T:\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%PATH%"
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\mkspecs RD /S /Q %SOURCEROOT%\mkspecs
-"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% T:\_compressed_sources\QT-4.8.4.7z mkspecs
+"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% T:\_compressed_sources\QT-4.8.5.7z mkspecs
 patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc_R.diff -d %SOURCEROOT%\
 :: ignore errors here
 :: IF ERRORLEVEL 1 GOTO FAIL
