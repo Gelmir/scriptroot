@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\icu RD /S /Q %SOURCEROOT%\icu
 MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\icu-50.1.1.7z -o%SOURCEROOT%\icu
+"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\icu-51.2.7z -o%SOURCEROOT%\icu
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
 devenv.com .\source\allinone\allinone.sln /build "Release|x64"
 IF ERRORLEVEL 1 GOTO FAIL
