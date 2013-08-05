@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-4.8.5.7z -o%SOURCEROOT%\Qt -x!examples -x!demos -x!doc -x!include\QtWebKit -x!include\QtScriptTools -x!include\QtScript -x!include\QtOpenVG -x!include\QtOpenGL -x!include\QtMultimedia -x!include\QtMeeGoGraphicsSystemHelper -x!include\QtDeclarative -x!include\QtDBus -x!include\Qt3Support -x!include\phonon -x!include\phonon_compat -x!src\dbus -x!src\declarative -x!src\multimedia -x!src\opengl -x!src\openvg -x!src\qt3support -x!src\script -x!src\scripttools -x!src\s60installs -x!src\s60main -x!src\3rdparty\webkit -x!src\3rdparty\ce-compat -x!src\3rdparty\javascriptcore -x!src\3rdparty\phonon -x!src\3rdparty\pixman -x!src\3rdparty\s60 -x!src\3rdparty\wayland -x!src\3rdparty\xorg
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-4.8.5.7z -o%SOURCEROOT%\Qt -x!examples -x!demos -x!doc -x!include\QtWebKit -x!include\QtScriptTools -x!include\QtScript -x!include\QtOpenVG -x!include\QtOpenGL -x!include\QtMultimedia -x!include\QtMeeGoGraphicsSystemHelper -x!include\QtDBus -x!include\Qt3Support -x!include\phonon -x!include\phonon_compat -x!src\dbus -x!src\multimedia -x!src\opengl -x!src\openvg -x!src\qt3support -x!src\script -x!src\scripttools -x!src\s60installs -x!src\s60main -x!src\3rdparty\webkit -x!src\3rdparty\ce-compat -x!src\3rdparty\javascriptcore -x!src\3rdparty\phonon -x!src\3rdparty\pixman -x!src\3rdparty\s60 -x!src\3rdparty\wayland -x!src\3rdparty\xorg
 patch --binary -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc64_Qt4.diff
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\jom;%PATH%"

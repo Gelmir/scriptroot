@@ -4,7 +4,6 @@ GOTO BEGIN
 CD %CWD%
 SET INST_DIR=
 SET RC=
-SET NO_TAINT=
 REM IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 GOTO END
 :FAIL
@@ -12,10 +11,8 @@ ECHO Building failed, leaving source tree as is and dumping custom env vars
 CD %CWD%
 IF DEFINED INST_DIR ECHO INST_DIR = %INST_DIR%
 IF DEFINED RC ECHO RC = %RC%
-IF DEFINED NO_TAINT ECHO NO_TAINT = %NO_TAINT%
 SET INST_DIR=
 SET RC=
-SET NO_TAINT=
 GOTO END
 :BEGIN
 IF NOT EXIST %BUILDROOT%\libtorrent MD %BUILDROOT%\libtorrent
@@ -33,8 +30,8 @@ IF NOT DEFINED RC (
   IF ERRORLEVEL 1 GOTO FAIL
   patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\boost_1_54_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  REM IF NOT DEFINED NO_TAINT (
-  REM )
+  patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\disk-stats.patch
+  IF ERRORLEVEL 1 GOTO FAIL
 ) ELSE (
   XCOPY /Y /E /Q /I C:\Users\Dayman\Documents\vcs\libtorrent %SOURCEROOT%\libtorrent\
   COPY /Y %SCRIPTROOT%\libtorrent\patches\export_fix.patch %SOURCEROOT%\libtorrent\
@@ -42,8 +39,6 @@ IF NOT DEFINED RC (
   IF ERRORLEVEL 1 GOTO FAIL
   patch -p1 -Nfi %SOURCEROOT%\libtorrent\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  REM IF NOT DEFINED NO_TAINT (
-  REM )
 )
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 :: Disable asserts and invariant checks, we only need symbols; about invariant checks btw: http://kaba.hilvi.org/pastel/pastel/sys/ensure.htm

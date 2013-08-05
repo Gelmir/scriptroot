@@ -39,27 +39,27 @@ diff --binary -ruN 1/winconf.pri 2/winconf.pri
  
  #Point this to the boost include folder
 -INCLUDEPATH += $$quote(C:/qBittorrent/boost_1_51_0)
-+INCLUDEPATH += $$quote(T:/_outdir/Boost/Boost64/include)
++INCLUDEPATH += $$quote(C:/_/_outdir/Boost/Boost64/include)
  #Point this to the libtorrent include folder
 -INCLUDEPATH += $$quote(C:/qBittorrent/RC_0_16/include)
-+INCLUDEPATH += $$quote(T:/_outdir/libtorrent/libtorrent64/include)
++INCLUDEPATH += $$quote(C:/_/_outdir/libtorrent/libtorrent64/include)
  #Point this to the zlib include folder
 -INCLUDEPATH += $$quote(C:/qBittorrent/Zlib/include)
-+INCLUDEPATH += $$quote(T:/_outdir/Zlib/Zlib64/include)
++INCLUDEPATH += $$quote(C:/_/_outdir/Zlib/Zlib64/include)
 +#OpenSSL include path
-+INCLUDEPATH += $$quote(T:/_outdir/OpenSSL/OpenSSL64/include)
++INCLUDEPATH += $$quote(C:/_/_outdir/OpenSSL/OpenSSL64/include)
  
  #Point this to the boost lib folder
 -LIBS += $$quote(-LC:/qBittorrent/boost_1_51_0/stage/lib)
-+LIBS += $$quote(-LT:/_outdir/Boost/Boost64/lib)
++LIBS += $$quote(-LC:/_/_outdir/Boost/Boost64/lib)
  #Point this to the libtorrent lib folder
 -LIBS += $$quote(-LC:/qBittorrent/RC_0_16/bin/<path-according-to-the-build-options-chosen>)
-+LIBS += $$quote(-LT:/_outdir/libtorrent/libtorrent64/lib)
++LIBS += $$quote(-LC:/_/_outdir/libtorrent/libtorrent64/lib)
  #Point this to the zlib lib folder
 -LIBS += $$quote(-LC:/qBittorrent/Zlib/lib)
-+LIBS += $$quote(-LT:/_outdir/Zlib/Zlib64/lib)
++LIBS += $$quote(-LC:/_/_outdir/Zlib/Zlib64/lib)
 +#OpenSSL lib path
-+LIBS += $$quote(-LT:/_outdir/OpenSSL/OpenSSL64/lib)
++LIBS += $$quote(-LC:/_/_outdir/OpenSSL/OpenSSL64/lib)
  
  # LIBTORRENT DEFINES
  DEFINES += BOOST_ALL_NO_LIB

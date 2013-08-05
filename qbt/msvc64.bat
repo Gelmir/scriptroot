@@ -16,6 +16,7 @@ SET TAG_RELEASE=
 SET GIT_TAG=
 SET QB_STRING=
 SET NO_PUBLIC=
+SET LOG=
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 GOTO END
 :FAIL
@@ -38,6 +39,7 @@ IF DEFINED TAG_RELEASE (
   ECHO Master branch was used for building
 )
 IF DEFINED NO_PUBLIC ECHO NO_PUBLIC = %NO_PUBLIC%
+IF DEFINED LOG ECHO LOG = %LOG%
 SET LC_ALL=
 SET PACKAGE=
 SET INST_DIR=
@@ -47,6 +49,7 @@ SET TAG_RELEASE=
 SET GIT_TAG=
 SET QB_STRING=
 SET NO_PUBLIC=
+SET LOG=
 GOTO END
 :: Control git branhes
 :GIT_CMDS
@@ -96,29 +99,33 @@ FOR /F "delims=" %%X IN ('findstr /R "^PROJECT_VERSION" .\version.pri ^| sed -e 
 :: Replace paths to libtorrent, boost, etc.
 patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
 IF ERRORLEVEL 1 GOTO FAIL
-SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
+SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;%BUILDROOT%\jom;%PATH%"
 CD .\src
 lupdate -no-obsolete ./src.pro
 IF ERRORLEVEL 1 GOTO FAIL
 CD ..\
 MD build
 CD build
-qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" 
-:: "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING"
-IF ERRORLEVEL 1 GOTO FAIL
+IF NOT DEFINED LOG (
+  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow"
+  IF ERRORLEVEL 1 GOTO FAIL
+) ELSE (
+  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING"
+  IF ERRORLEVEL 1 GOTO FAIL
+)
 jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
 COPY /Y .\src\release\qbittorrent.exe %INST_DIR%\
 IF EXIST .\src\release\qbittorrent.pdb COPY /Y .\src\release\qbittorrent.pdb %INST_DIR%\
 FOR %%X IN (QtCore4.dll QtGui4.dll QtNetwork4.dll QtXml4.dll) DO (
-    COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\%%X %INST_DIR%\
+    COPY /Y %BUILDROOT%\Qt\Qt4_x64_full\bin\%%X %INST_DIR%\
 )
 :: Only qico4.dll is required
-XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
+XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_full\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
 :: Use never Qt translations if possible
 FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\src\qt-translations\"`) DO (
-  IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
-    COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+  IF EXIST "%BUILDROOT%\Qt\Qt4_x64_full\translations\%%X" (
+    COPY /Y "%BUILDROOT%\Qt\Qt4_x64_full\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
   )
 )
 XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qt_* %INST_DIR%\translations\

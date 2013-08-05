@@ -4,7 +4,7 @@ GOTO BEGIN
 CD %CWD%
 SET INST_DIR=
 SET RC=
-SET NO_TAINT=
+SET LOG=
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 GOTO END
 :FAIL
@@ -12,10 +12,10 @@ ECHO Building failed, leaving source tree as is and dumping custom env vars
 CD %CWD%
 IF DEFINED INST_DIR ECHO INST_DIR = %INST_DIR%
 IF DEFINED RC ECHO RC = %RC%
-IF DEFINED NO_TAINT ECHO NO_TAINT = %NO_TAINT%
+IF DEFINED LOG ECHO LOG = %LOG%
 SET INST_DIR=
 SET RC=
-SET NO_TAINT=
+SET LOG=
 GOTO END
 :BEGIN
 IF NOT EXIST %BUILDROOT%\libtorrent MD %BUILDROOT%\libtorrent
@@ -33,8 +33,8 @@ IF NOT DEFINED RC (
   IF ERRORLEVEL 1 GOTO FAIL
   patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\boost_1_54_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  REM IF NOT DEFINED NO_TAINT (
-  REM )
+  patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\disk-stats.patch
+  IF ERRORLEVEL 1 GOTO FAIL
 ) ELSE (
   XCOPY /Y /E /Q /I C:\Users\Dayman\Documents\vcs\libtorrent %SOURCEROOT%\libtorrent\
   COPY /Y %SCRIPTROOT%\libtorrent\patches\export_fix.patch %SOURCEROOT%\libtorrent\
@@ -42,12 +42,10 @@ IF NOT DEFINED RC (
   IF ERRORLEVEL 1 GOTO FAIL
   patch -p1 -Nfi %SOURCEROOT%\libtorrent\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  REM IF NOT DEFINED NO_TAINT (
-  REM )
 )
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
-:: disk-stats=on logging=default
-bjam -j4 -q --toolset=msvc --prefix=%INST_DIR%  boost=system boost-link=shared link=shared runtime-link=shared variant=release debug-symbols=off resolve-countries=on full-stats=on export-extra=off ipv6=on dht-support=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
+IF DEFINED LOG SET "LOG=disk-stats=on logging=default"
+bjam -j4 -q --toolset=msvc --prefix=%INST_DIR% %LOG% boost=system boost-link=shared link=shared runtime-link=shared variant=release debug-symbols=off resolve-countries=on full-stats=on export-extra=off ipv6=on dht-support=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
 :END

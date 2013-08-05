@@ -74,7 +74,7 @@ SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\mkspecs RD /S /Q %SOURCEROOT%\mkspecs
 "C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-4.8.5.7z mkspecs
-patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc_R.diff -d %SOURCEROOT%\
+patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc_Qt4.diff -d %SOURCEROOT%\
 :: ignore errors here
 :: IF ERRORLEVEL 1 GOTO FAIL
 SET "QMAKESPEC=%SOURCEROOT%\mkspecs\win32-msvc2010"
