@@ -92,11 +92,11 @@ GOTO GIT_CMDS
 CD /D %SOURCEROOT%\qbittorrent
 :: Get qBt version for packaging
 FOR /F "delims=" %%X IN ('findstr /R "^PROJECT_VERSION" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\GeoIP.7z -o.\src\geoip\
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o.\src\geoip\
 :: Replace paths to libtorrent, boost, etc.
 patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
 IF ERRORLEVEL 1 GOTO FAIL
-SET "PATH=%BUILDROOT%\Qt\Qt64\bin;%BUILDROOT%\jom;%PATH%"
+SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 CD .\src
 lupdate -no-obsolete ./src.pro
 IF ERRORLEVEL 1 GOTO FAIL
@@ -111,14 +111,14 @@ IF ERRORLEVEL 1 GOTO FAIL
 COPY /Y .\src\release\qbittorrent.exe %INST_DIR%\
 IF EXIST .\src\release\qbittorrent.pdb COPY /Y .\src\release\qbittorrent.pdb %INST_DIR%\
 FOR %%X IN (QtCore4.dll QtGui4.dll QtNetwork4.dll QtXml4.dll) DO (
-    COPY /Y %BUILDROOT%\Qt\Qt64\bin\%%X %INST_DIR%\
+    COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\%%X %INST_DIR%\
 )
 :: Only qico4.dll is required
-XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt64\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
+XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
 :: Use never Qt translations if possible
 FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\src\qt-translations\"`) DO (
-  IF EXIST "%BUILDROOT%\Qt\Qt64\translations\%%X" (
-    COPY /Y "%BUILDROOT%\Qt\Qt64\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+  IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
+    COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
   )
 )
 XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qt_* %INST_DIR%\translations\
