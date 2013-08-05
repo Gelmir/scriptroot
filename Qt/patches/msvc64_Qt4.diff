@@ -36,13 +36,13 @@ diff --binary -ruN 1/qmake/Makefile.win32 2/qmake/Makefile.win32
                -DQT_NO_QOBJECT -DQT_NO_GEOM_VARIANT -DQT_NO_DATASTREAM -DQT_NO_PCRE -DQT_BOOTSTRAPPED \
                -DQLIBRARYINFO_EPOCROOT
 -CFLAGS   = -Yuqmake_pch.h -FIqmake_pch.h -Fpqmake_pch.pch $(CFLAGS_BARE) $(CFLAGS)
-+CFLAGS   = $(CFLAGS_BARE) $(CFLAGS) -favor:blend -GL -O2
++CFLAGS   = $(CFLAGS_BARE) $(CFLAGS) -favor:blend -GL- -O2
  
  CXXFLAGS_BARE = $(CFLAGS_BARE)
  CXXFLAGS = $(CFLAGS)
  
 -LFLAGS	    =
-+LFLAGS	    = /NOLOGO /LTCG /OPT:REF /OPT:ICF=5
++LFLAGS	    = /NOLOGO /OPT:REF /OPT:ICF=5
  LIBS	    = ole32.lib advapi32.lib
  LINKQMAKE   = $(LINK) $(LFLAGS) -OUT:qmake.exe $(OBJS) $(QTOBJS) $(LIBS)
  ADDCLEAN    = vc60.pdb vc70.pdb qmake.pdb qmake.ilk

@@ -30,11 +30,11 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\OpenSSL RD /S /Q %SOURCEROOT%\OpenSSL
 MD %SOURCEROOT%\OpenSSL
 CD %SOURCEROOT%\OpenSSL
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\OpenSSL-1.0.1e.7z
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\OpenSSL-1.0.1e.7z
 SET "CFLAGS=/favor:blend /Od /Y- /MP /MDd /W3"
 SET "LDFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console"
 SET "MLFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console /DLL"
-SET "PATH=T:\NASM;%PATH%"
+SET "PATH=C:\_\NASM;%PATH%"
 perl Configure debug-VC-WIN64A threads shared zlib -I%BUILDROOT%\Zlib\Zlib64d\include -L%BUILDROOT%\Zlib\Zlib64d\lib --prefix=%INST_DIR%
 CALL .\ms\do_win64a.bat
 :: MOTHER OF GOD, NOT THIS SHIT AGAIN

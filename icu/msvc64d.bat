@@ -12,8 +12,8 @@ IF DEFINED INST_DIR ECHO INST_DIR = %INST_DIR%
 SET INST_DIR=
 GOTO END
 :BEGIN
-IF NOT EXIST %BUILDROOT%\icu\icu64 MD %BUILDROOT%\icu\icu64
-SET "INST_DIR=%BUILDROOT%\icu\icu64"
+IF NOT EXIST %BUILDROOT%\icu\icu64d MD %BUILDROOT%\icu\icu64d
+SET "INST_DIR=%BUILDROOT%\icu\icu64d"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
@@ -23,10 +23,10 @@ MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-51.2.7z -o%SOURCEROOT%\icu
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
-devenv.com .\source\allinone\allinone.sln /build "Release|x64"
+devenv.com .\source\allinone\allinone.sln /build "Debug|x64"
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=.\bin64;%PATH%"
-CALL .\source\allinone\icucheck.bat x64 Release
+CALL .\source\allinone\icucheck.bat x64 Debug
 IF ERRORLEVEL 1 GOTO FAIL
 :: Install target
 FOR %%X IN (bin64 lib64 include) DO (

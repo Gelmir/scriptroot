@@ -1,7 +1,8 @@
 #!/bin/bash
-G_BUILDROOT="/t/_outdir"
-G_SCRIPTROOT="/t/scripts"
-G_SOURCEROOT="/t/sources"
+G_BUILDROOT="/c/_/_outdir"
+G_SCRIPTROOT="/c/_/scripts"
+G_SOURCEROOT="/c/_/sources"
+G_ARCHIVES="/c/_/_compressed_sources"
 MY_DIR=`pwd`
 
 if [ -d "${G_SOURCEROOT}/Zlib" ]
@@ -18,7 +19,7 @@ then
 fi
 mkdir -pv "${INST_DIR}"
 
-"/c/Program Files/7-Zip/7z.exe" x /t/_compressed_sources/zlib-1.2.8.7z -o"${G_SOURCEROOT}"/Zlib
+"/c/Program Files/7-Zip/7z.exe" x "${G_ARCHIVES}/zlib-1.2.8.7z" -o"${G_SOURCEROOT}"/Zlib
 
 # Editing CFLAGS
 sed -i -e "s/\(CFLAGS = \$(LOC) \)-O3\( -Wall\)/\1\2 -march=i686 -mmmx -msse -msse2 -pipe -fstack-protector-all -fno-exceptions -O3 -fomit-frame-pointer -fpredictive-commoning -finline-small-functions -finline-functions/" -e "s/\(ASFLAGS = \).*/\1\$(CFLAGS)/" -e "s/\(LDFLAGS = \$(LOC)\)/\1 -fstack-protector-all -Wl,-s -Wl,-O1 -Wl,--as-needed -Wl,--nxcompat -Wl,--dynamicbase/" ./win32/Makefile.gcc

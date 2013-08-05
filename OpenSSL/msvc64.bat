@@ -33,12 +33,12 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\OpenSSL RD /S /Q %SOURCEROOT%\OpenSSL
 MD %SOURCEROOT%\OpenSSL
 CD %SOURCEROOT%\OpenSSL
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\OpenSSL-1.0.1e.7z -o%SOURCEROOT%\OpenSSL
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\OpenSSL-1.0.1e.7z -o%SOURCEROOT%\OpenSSL
 SET "CFLAGS=/O2 /favor:blend /GL /Y- /MD /w"
 SET "LDFLAGS=/NOLOGO /LTCG /OPT:REF /OPT:ICF=5 /subsystem:console"
 SET "MLFLAGS=/NOLOGO /LTCG /OPT:REF /OPT:ICF=5 /subsystem:console /DLL"
 SET "ASFLAGS=nasm -f win64 -DNEAR -Ox"
-SET "PATH=T:\NASM;%PATH%"
+SET "PATH=C:\_\NASM;%PATH%"
 perl Configure VC-WIN64A threads shared zlib -I%BUILDROOT%\Zlib\Zlib64\include -L%BUILDROOT%\Zlib\Zlib64\lib --prefix=%INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
 CALL .\ms\do_win64a.bat

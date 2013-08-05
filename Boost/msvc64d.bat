@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\Boost RD /S /Q %SOURCEROOT%\Boost
 MD %SOURCEROOT%\Boost
 CD %SOURCEROOT%\Boost
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\boost-1.54.7z
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.54.7z -o%SOURCEROOT%\Boost
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 @ECHO OFF
 bjam -j4 -q --with-system --with-date_time --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=debug debug-symbols=on threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" install

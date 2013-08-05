@@ -14,7 +14,7 @@ SET INST_DIR=
 GOTO END
 :BEGIN
 IF NOT EXIST %BUILDROOT%\Qt MD %BUILDROOT%\Qt
-SET "INST_DIR=%BUILDROOT%\Qt\Qt64_Qt5_qbt"
+SET "INST_DIR=%BUILDROOT%\Qt\Qt5_x64_qbt"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
@@ -22,8 +22,8 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x T:\_compressed_sources\QT-5.1.0.7z -o%SOURCEROOT%\Qt qtbase qtsvg qtactiveqt qttools qtimageformats qttranslations README .sha1s .tag configure* LGPL_EXCEPTION.txt LICENSE* qt.pro README
-patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc64_R_Qt5.diff
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.1.0.7z -o%SOURCEROOT%\Qt qtbase qtsvg qtactiveqt qttools qtimageformats qttranslations README .sha1s .tag configure* LGPL_EXCEPTION.txt LICENSE* qt.pro README
+patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc64_Qt5.diff
 IF ERRORLEVEL 1 GOTO FAIL
 :: Skip some stuff
 :: -skip qtdeclarative -skip qtjsbackend -skip qtmultimedia -skip qtquick1 -skip qtquickcontrols -skip qtscript -skip qtwebkit -skip qtxmlpatterns -skip qtx11extras -skip qtsensors -skip qtserialport

@@ -1,7 +1,8 @@
 #!/bin/bash
-G_BUILDROOT="/t/_outdir"
-G_SCRIPTROOT="/t/scripts"
-G_SOURCEROOT="/t/sources"
+G_BUILDROOT="/c/_/_outdir"
+G_SCRIPTROOT="/c/_/scripts"
+G_SOURCEROOT="/c/_/sources"
+G_ARCHIVES="/c/_/_compressed_sources"
 if [ -d "${G_SOURCEROOT}/OpenSSL" ]
 then
     rm -fr "${G_SOURCEROOT}/OpenSSL"
@@ -16,7 +17,7 @@ fi
 mkdir -pv "${INST_DIR}"
 
 cd "${G_SOURCEROOT}/OpenSSL"
-"/c/Program Files/7-Zip/7z.exe" x /t/_compressed_sources/OpenSSL-1.0.1e.7z -o"${G_SOURCEROOT}"/OpenSSL
+"/c/Program Files/7-Zip/7z.exe" x "${G_ARCHIVES}/OpenSSL-1.0.1e.7z" -o"${G_SOURCEROOT}"/OpenSSL
 # LFLAGS seem not to have any effect move -Wl,s to CFLAGS
 # Seems to NOT use SHARED_LDFLAGS in any way - dump everyhting in CFLAGS
  _CFLAGS_="-O2 -march=i686 -mmmx -msse -msse2 -fomit-frame-pointer -fpredictive-commoning -pipe -fno-exceptions -finline-small-functions -fstack-protector-all -Wl,-O1 -Wl,--as-needed -Wl,-s -shared-libgcc -Wl,--nxcompat -Wl,--dynamicbase"
