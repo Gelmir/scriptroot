@@ -29,17 +29,18 @@ CALL configure.bat -release -shared -opensource -confirm-license -platform win32
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
-jom -j1 module-qttranslations
-IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install
 IF ERRORLEVEL 1 GOTO FAIL
 :: Build webkit
 cd .\qtwebkit
 SET "PATH=%SOURCEROOT%\qt\gnuwin32\bin;%INST_DIR%\bin;%PATH%"
-perl Tools\Scripts\build-webkit --qt --release --qmakearg="CONFIG+=warn_off"
+perl Tools\Scripts\build-webkit --qt --release --install-headers="%INST_DIR%\include" --install-libs="%INST_DIR%\lib" --qmakearg="CONFIG+=warn_off" --qmakearg="CONFIG+=msvc_mp" --qmakearg="CONFIG+=webkit2"
 IF ERRORLEVEL 1 GOTO FAIL
-EXIT /B
 cd ..\
+:: Copy webkit dlls into bin
+FOR %%X IN () DO (
+  COPY /Y %INST_DIR%\lib\%%X %INST_DIR%\bin\
+)
 jom -j1 docs
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install_docs
