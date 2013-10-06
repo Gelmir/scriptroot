@@ -23,7 +23,7 @@ GOTO END
 IF EXIST %BUILDROOT%\QtCreator RD /S /Q %BUILDROOT%\QtCreator
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\amd64\vcvars64.bat"
 SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%PATH%"
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
@@ -69,7 +69,7 @@ RD /S /Q qtcb
 CALL %SCRIPTROOT%\virgin.bat backup
 MD qtcb
 CD qtcb
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\vcvars32.bat"
 SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%PATH%"
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\mkspecs RD /S /Q %SOURCEROOT%\mkspecs
@@ -77,7 +77,7 @@ IF EXIST %SOURCEROOT%\mkspecs RD /S /Q %SOURCEROOT%\mkspecs
 patch --binary -p1 -Nsfi %SCRIPTROOT%\Qt\patches\msvc_Qt4.diff -d %SOURCEROOT%\
 :: ignore errors here
 :: IF ERRORLEVEL 1 GOTO FAIL
-SET "QMAKESPEC=%SOURCEROOT%\mkspecs\win32-msvc2010"
+SET "QMAKESPEC=%SOURCEROOT%\mkspecs\win32-msvc2012"
 qmake -config release -r ../qtcreator.pro "QT_PRIVATE_HEADERS = C:/_/sources/Qt/include " "CONFIG += warn_off msvc_mp ltcg mmx sse sse2" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
 CD .\src\libs\qtcreatorcdbext

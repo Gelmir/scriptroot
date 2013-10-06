@@ -18,7 +18,7 @@ IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\Zlib RD /S /Q %SOURCEROOT%\Zlib
 MD %SOURCEROOT%\Zlib
 CD %SOURCEROOT%\Zlib

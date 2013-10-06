@@ -17,7 +17,7 @@ SET "INST_DIR=%BUILDROOT%\Qt\Qt4_x64_full"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\amd64\vcvars64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
@@ -32,7 +32,7 @@ FOR /R .\ %%X IN (*.orig) DO (
 	DEL /Q %%X
 )
 SET "PATH=%BUILDROOT%\jom;%PATH%"
-.\configure.exe -release -shared -opensource -confirm-license -platform win32-msvc2010 -arch windows -ltcg -no-fast -exceptions -no-accessibility -stl -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -no-qt3support -opengl desktop -no-openvg -graphicssystem raster -qt-zlib -qt-libpng -qt-libmng -qt-libtiff -qt-libjpeg -no-dsp -no-vcproj -no-incredibuild-xge -plugin-manifests -process -no-mp -rtti -no-3dnow -mmx -sse -sse2 -openssl -no-dbus -phonon -phonon-backend -multimedia -audio-backend -webkit -script -scripttools -declarative -declarative-debug -no-style-s60 -no-style-windowsmobile -no-style-windowsce -no-style-cde -no-style-motif -qt-style-cleanlooks -qt-style-plastique -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -no-directwrite -qmake -nomake examples -nomake demos -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR%
+.\configure.exe -release -shared -opensource -confirm-license -platform win32-msvc2012 -arch windows -ltcg -no-fast -exceptions -no-accessibility -stl -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -no-qt3support -opengl desktop -no-openvg -graphicssystem raster -qt-zlib -qt-libpng -qt-libmng -qt-libtiff -qt-libjpeg -no-dsp -no-vcproj -no-incredibuild-xge -plugin-manifests -process -no-mp -rtti -no-3dnow -mmx -sse -sse2 -openssl -no-dbus -phonon -phonon-backend -multimedia -audio-backend -webkit -script -scripttools -declarative -declarative-debug -no-style-s60 -no-style-windowsmobile -no-style-windowsce -no-style-cde -no-style-motif -qt-style-cleanlooks -qt-style-plastique -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -no-directwrite -qmake -nomake examples -nomake demos -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4 make_default
 IF ERRORLEVEL 1 GOTO FAIL

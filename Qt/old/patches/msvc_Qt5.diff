@@ -1,6 +1,6 @@
-diff --binary -ruN 1/qtbase/mkspecs/win32-msvc2010/qmake.conf 2/qtbase/mkspecs/win32-msvc2010/qmake.conf
---- 1/qtbase/mkspecs/win32-msvc2010/qmake.conf	2013-07-02 11:09:32.000000000 +0400
-+++ 2/qtbase/mkspecs/win32-msvc2010/qmake.conf	2013-08-04 21:09:53.388255300 +0400
+diff --binary -ruN 1/qtbase/mkspecs/win32-msvc2012/qmake.conf 2/qtbase/mkspecs/win32-msvc2012/qmake.conf
+--- 1/qtbase/mkspecs/win32-msvc2012/qmake.conf	2013-07-02 11:09:32.000000000 +0400
++++ 2/qtbase/mkspecs/win32-msvc2012/qmake.conf	2013-08-04 21:09:53.388255300 +0400
 @@ -16,12 +16,12 @@
  QMAKE_LEXFLAGS          =
  QMAKE_YACC              = byacc
