@@ -35,7 +35,7 @@ SET "CFLAGS=/favor:blend /Od /Y- /MP /MDd /W3"
 SET "LDFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console"
 SET "MLFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console /DLL"
 SET "PATH=C:\_\NASM;%PATH%"
-perl Configure debug-VC-WIN64A threads shared zlib -I%BUILDROOT%\Zlib\Zlib64d\include -L%BUILDROOT%\Zlib\Zlib64d\lib --prefix=%INST_DIR%
+perl Configure debug-VC-WIN64A threads shared zlib enable-md2 -I%BUILDROOT%\Zlib\Zlib64d\include -L%BUILDROOT%\Zlib\Zlib64d\lib --prefix=%INST_DIR%
 CALL .\ms\do_win64a.bat
 :: MOTHER OF GOD, NOT THIS SHIT AGAIN
 FOR /f "delims=" %%A IN ('findstr "^CFLAG\=" .\ms\ntdll.mak ^| sed -e "s:^CFLAG=::" -e "s:[\/-]O[012xstd] ::g" -e "s:[\/-]favor\:[-A-Z0-9]* ::g" -e "s:[\/-]GL ::g" -e "s:[\/-]Y ::g" -e "s:[\/-]MP ::g" -e "s:[\/-]M[DT][dt]\? ::g" -e "s:[\/-][Ww][0-9al]* ::g" -e "s:[\/-]Z[7Ii] ::g"') DO @SET FLAGS1=%%A
