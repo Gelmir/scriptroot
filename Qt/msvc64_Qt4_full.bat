@@ -24,6 +24,10 @@ CD %SOURCEROOT%\Qt
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-4.8.5.7z -o%SOURCEROOT%\Qt
 patch --binary -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc64_Qt4.diff
 IF ERRORLEVEL 1 GOTO FAIL
+:: Required to build webkit
+:: w/o --binary
+patch -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc2012_WebKit_HashSet.patch
+IF ERRORLEVEL 1 GOTO FAIL
 :: Remove shitload of _HAS_TR1 redifinition warnings on msvc2010
 sed -b -e "/^win32-\*\: DEFINES += _HAS_TR1=0.*/d" < .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri > .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT%
 MOVE /Y .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT% .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri
