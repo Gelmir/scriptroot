@@ -1,0 +1,11 @@
+--- 1/qtwebkit/Source/WebCore/WebCore.pri	2013-08-25 22:04:44.000000000 +0400
++++ 2/qtwebkit/Source/WebCore/WebCore.pri	2013-10-07 00:47:32.699229500 +0400
+@@ -267,7 +267,7 @@
+ }
+ 
+ # Remove whole program optimizations due to miscompilations
+-win32-msvc2005|win32-msvc2008|win32-msvc2010|wince*:{
++win32-msvc2005|win32-msvc2008|win32-msvc2010|win32-msvc2012|wince*:{
+     QMAKE_CFLAGS_LTCG -= -GL
+     QMAKE_CXXFLAGS_LTCG -= -GL
+ 
