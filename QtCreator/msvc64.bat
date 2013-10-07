@@ -23,7 +23,7 @@ GOTO END
 IF EXIST %BUILDROOT%\QtCreator RD /S /Q %BUILDROOT%\QtCreator
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\amd64\vcvars64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat
 SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%PATH%"
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
@@ -33,14 +33,7 @@ IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
 MD %SOURCEROOT%\QtCreator
 CD %SOURCEROOT%\QtCreator
 XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
-:: madde -> maemo dev integration, fakevim -> vimlike accelerators, valgrind -> code profiler (not available on windows)
-:: SET DISABLE_PLUGINS=plugin_valgrind plugin_perforce plugin_git plugin_madde plugin_fakevim plugin_cvs
-REM SET "DISABLE_PLUGINS=plugin_valgrind plugin_madde plugin_fakevim"
 SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
-REM FOR %%X IN (%DISABLE_PLUGINS%) DO (
-    REM sed -b -e "/^[[:space:]]\+%%X/d" < .\src\plugins\plugins.pro > .\src\plugins\plugins.pro.%SEDEXT%
-	REM MOVE /Y %SOURCEROOT%\QtCreator\plugins.pro.%SEDEXT% %SOURCEROOT%\QtCreator\plugins.pro
-REM )
 MD qtcb
 CD qtcb
 qmake -config release -r ../qtcreator.pro "QT_PRIVATE_HEADERS = C:/_/sources/Qt/include " "CONFIG += warn_off ltcg mmx sse sse2" "CONFIG -= 3dnow"
@@ -57,8 +50,6 @@ MOVE /Y %SOURCEROOT%\QtCreator\scripts\deployqt.py.%SEDEXT% %SOURCEROOT%\QtCreat
 sed -b -e "/^[[:space:]]\+plugins = /s|\(.*\), 'sqldrivers'|\1|" < ..\scripts\deployqt.py > ..\scripts\deployqt.py.%SEDEXT%
 MOVE /Y %SOURCEROOT%\QtCreator\scripts\deployqt.py.%SEDEXT% %SOURCEROOT%\QtCreator\scripts\deployqt.py
 :: Translations are not needed
-REM sed -b -e "/^[[:space:]]\+copy_translations/s|\(.*\)|#\1|" < ..\scripts\deployqt.py > ..\scripts\deployqt.py.%SEDEXT%
-REM MOVE /Y %SOURCEROOT%\QtCreator\scripts\deployqt.py.%SEDEXT% %SOURCEROOT%\QtCreator\scripts\deployqt.py
 jom -j1 bindist
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install_docs
