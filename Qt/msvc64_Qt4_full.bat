@@ -28,6 +28,8 @@ IF ERRORLEVEL 1 GOTO FAIL
 :: w/o --binary
 patch -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc2012_WebKit_HashSet.patch
 IF ERRORLEVEL 1 GOTO FAIL
+perl -pe "s/qtwebkit/src\/3rdparty\/webkit/" < %SCRIPTROOT%\Qt\patches\5.1.1-webkit-msvc2012.patch | patch -p1 -Nf 
+IF ERRORLEVEL 1 GOTO FAIL
 :: Remove shitload of _HAS_TR1 redifinition warnings on msvc2010
 sed -b -e "/^win32-\*\: DEFINES += _HAS_TR1=0.*/d" < .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri > .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT%
 MOVE /Y .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT% .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri
