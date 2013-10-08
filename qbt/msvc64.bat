@@ -174,8 +174,9 @@ echo Plugins = ./plugins >> %INST_DIR%\qt.conf
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INST_DIR%\
 COPY /Y %BUILDROOT%\libtorrent\libtorrent64\lib\torrent.dll %INST_DIR%\
 XCOPY /Y /Q %BUILDROOT%\Boost\Boost64\lib\*.dll %INST_DIR%\
-:: Copy VC++ 2010 x64 Redist DLLs
-XCOPY /Y /Q "%VCINSTALLDIR%\redist\x64\Microsoft.VC100.CRT\*.dll" %INST_DIR%\
+:: Copy VC++ 2012 x64 Redist DLLs
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcp110.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcr110.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
 unix2dos -ascii %INST_DIR%\LICENSE.txt
