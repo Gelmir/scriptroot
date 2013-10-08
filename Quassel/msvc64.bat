@@ -44,7 +44,7 @@ XCOPY /E /Y /Q /I %BUILDROOT%\qca64\certs %INST_DIR%\certs\
 FOR %%X IN (codecs iconengines imageformats phonon_backend) DO (
 	XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_full\plugins\%%X %INST_DIR%\plugins\%%X\
 )
-XCOPY /E /Y /Q /I %BUILDROOT%\qca64\lib\qt4\plugins\crypto %INST_DIR%\plugins\crypto\
+XCOPY /E /Y /Q /I %BUILDROOT%\qca64\lib\qca\crypto %INST_DIR%\plugins\crypto\
 echo [Paths] > %INST_DIR%\bin\qt.conf
 echo Plugins = ../plugins >> %INST_DIR%\bin\qt.conf
 GOTO CLEANUP
