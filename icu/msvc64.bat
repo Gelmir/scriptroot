@@ -11,6 +11,7 @@ ECHO Building failed, leaving source tree as is and dumping custom env vars
 CD %CWD%
 IF DEFINED INST_DIR ECHO INST_DIR = %INST_DIR%
 SET INST_DIR=
+SET VisualStudioVersion=
 GOTO END
 :BEGIN
 IF NOT EXIST %BUILDROOT%\icu\icu64 MD %BUILDROOT%\icu\icu64
