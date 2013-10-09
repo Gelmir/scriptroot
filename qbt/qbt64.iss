@@ -82,19 +82,30 @@ Source: "{#MyFilesRoot}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\{#MyAppPdbName}"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\boost_system.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\qt.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\torrent.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#MyFilesRoot}\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MyFilesRoot}\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\qt.conf"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Qt4 version
+Source: "{#MyFilesRoot}\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Qt5 version
+Source: "{#MyFilesRoot}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Visual C++ 2010 SP1 x64 Redistributable
-Source: "{#MyFilesRoot}\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Hack for uninstaller
+Source: "{#MyFilesRoot}\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Visual C++ 2012 x64 Redistributable
+Source: "{#MyFilesRoot}\msvcp110.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyFilesRoot}\msvcr110.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; DEPRECATED (by using MSVC DLLS)
 ; Source: "{#PACKDIR}\{#VCREDIST}"; DestDir: "{tmp}"; Flags: ignoreversion overwritereadonly nocompression
 ; exe to check for running processes
