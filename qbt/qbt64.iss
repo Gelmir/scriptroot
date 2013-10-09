@@ -80,11 +80,14 @@ Name: "magnet_assoc"; Description: "Associate with magnet links"; GroupDescripti
 Source: "{#MyFilesRoot}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; Hack for pdb inclusion on different versions
 Source: "{#MyFilesRoot}\{#MyAppPdbName}"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Boost
 Source: "{#MyFilesRoot}\boost_system.dll"; DestDir: "{app}"; Flags: ignoreversion
+; OpenSSL
 Source: "{#MyFilesRoot}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+; libtorrent-rasterbar
 Source: "{#MyFilesRoot}\torrent.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
+; Qt shared files
 Source: "{#MyFilesRoot}\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\qt.conf"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
@@ -99,17 +102,13 @@ Source: "{#MyFilesRoot}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion skip
 Source: "{#MyFilesRoot}\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
-; Visual C++ 2010 SP1 x64 Redistributable
-; Hack for uninstaller
-Source: "{#MyFilesRoot}\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
-Source: "{#MyFilesRoot}\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Visual C++ 2012 x64 Redistributable
 Source: "{#MyFilesRoot}\msvcp110.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\msvcr110.dll"; DestDir: "{app}"; Flags: ignoreversion
-; DEPRECATED (by using MSVC DLLS)
-; Source: "{#PACKDIR}\{#VCREDIST}"; DestDir: "{tmp}"; Flags: ignoreversion overwritereadonly nocompression
-; exe to check for running processes
+; App to kill process by name
 Source: "{#PACKDIR}\processviewer.exe"; Flags: dontcopy
+; License
+Source: "{#MyFilesRoot}\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 
 
 [Icons]
@@ -146,64 +145,11 @@ Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""qBittorrent64 TCP"" protocol=TCP dir=in action=allow program=""{app}\{#MyAppExeName}"" "; StatusMsg: "Adding Firewall Exception (TCP IN)"; Flags: runhidden; Tasks: firewall
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall add rule name=""qBittorrent64 UDP"" protocol=UDP dir=in action=allow program=""{app}\{#MyAppExeName}"" "; StatusMsg: "Adding Firewall Exception (UDP IN)"; Flags: runhidden; Tasks: firewall
 
-; DEPRECATED (by using MSVC DLLS)
-; Visual C++ 2010 SP1 x64 Redistributable
-; This command makes almost no sense, thank Windows™ for this epic command line arguments
-; Filename: "{tmp}\{#VCREDIST}"; Parameters: "/q /c:""VCREDI~2.EXE /q /c:""msiexec /i vcredist.msi /qn /l*v %temp%\vcredist_x64.log"""""; StatusMsg: "Visual C++ 2010 SP1 x64 Redistributable"; Check: VCRedist2010_NeedsUpdate;
-
 [UninstallRun]
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""qBittorrent64 TCP"" "; StatusMsg: "Removing Firewall Exception (TCP IN)"; Flags: runhidden
 Filename: "{sys}\netsh.exe"; Parameters: "advfirewall firewall delete rule name=""qBittorrent64 UDP"" ";  StatusMsg: "Removing Firewall Exception (UDP IN)"; Flags: runhidden
 
 [Code]
-
-// DEPRECATED (by using MSVC DLLS)
-// Check is vcredist needs updating (we ship redist 2010 with SP1)
-// We check if a specific version (or higher) is installed so we don't even need to call vcredist_x64.exe during installation
-// Redist w/o any patches is 10.0.30319, with SP1 is 10.0.40219
-// function VCRedist2010_NeedsUpdate: Boolean;
-// var
-  // RegQueryFailed:  Boolean;  // True on fail
-  // VC_INSTALLED:  Cardinal;
-  // VC_MAJOR:    Cardinal;
-  // VC_MINOR:    Cardinal;
-  // VC_BUILD:    Cardinal;
-// begin
-  // // Possible bug (or redirection behavior change in Win7): RegQueryDWordValue on 'HKEY_LOCAL_MACHINE' will fail in Vista but will work in Win7, using HKLM32 explicitly.
-  // RegQueryFailed := NOT RegQueryDWordValue( HKLM32, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x64', 'Installed', VC_INSTALLED );
-  
-  // if ( RegQueryFailed ) OR ( VC_INSTALLED <> 1 )
-  // then
-  // begin
-    // Result := True;
-    // Exit;
-  // end;
-  
-  // RegQueryFailed := RegQueryFailed OR NOT RegQueryDWordValue( HKLM32, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x64', 'MajorVersion', VC_MAJOR );
-  // RegQueryFailed := RegQueryFailed OR NOT RegQueryDWordValue( HKLM32, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x64', 'MinorVersion', VC_MINOR );
-  // RegQueryFailed := RegQueryFailed OR NOT RegQueryDWordValue( HKLM32, 'SOFTWARE\Wow6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x64', 'Bld', VC_BUILD );
-      
-  // // One of queries failed completely -> install anyway
-  // if RegQueryFailed
-  // then
-  // begin
-    // Result := True;
-    // Exit;
-  // end;
-  
-  // // Use this for debugging
-  // //MsgBox( 'Redist Installed: ' + IntToStr(VC_INSTALLED) + #13#10 +
-  // //    'Version string: ' + IntToStr(VC_MAJOR) + '.' + IntToStr(VC_MINOR) + '.' + IntToStr(VC_BUILD), mbInformation, MB_OK );
-  
-  // if ( VC_MAJOR = 10 ) AND ( VC_MINOR >= 0 ) AND ( VC_BUILD < 40219 )
-  // then
-  // begin
-    // Result := True;
-    // Exit;
-  // end;
-  
-  // Result := False;
-// end;
 
 // Check if qBittorrent.exe is running
 function ProductRunning(): Boolean;
