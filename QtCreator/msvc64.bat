@@ -36,7 +36,8 @@ XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\QtCreator %SOURCEROOT%\QtCrea
 SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
 MD qtcb
 CD qtcb
-qmake -config release -r ../qtcreator.pro "QT_PRIVATE_HEADERS = C:/_/sources/Qt/include " "CONFIG += warn_off ltcg mmx sse sse2" "CONFIG -= 3dnow"
+:: LTCG is broken
+qmake -config release -r ../qtcreator.pro "QT_PRIVATE_HEADERS = C:/_/sources/Qt/include " "CONFIG += warn_off mmx sse sse2" "CONFIG -= 3dnow ltcg"
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
