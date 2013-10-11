@@ -77,7 +77,7 @@ GOTO CONTINUE
 :BEGIN
 :: Bitch please
 :: Required for nested loops and ifs
-REM Setlocal EnableDelayedExpansion
+Setlocal EnableDelayedExpansion
 SET "INST_DIR=%BUILDROOT%\qBittorrent64"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
@@ -110,17 +110,15 @@ IF %QT_VER% == 5 (
   patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64_Qt5.patch
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%PATH%"
-  lupdate -recursive -no-obsolete ./qbittorrent.pro
-  IF ERRORLEVEL 1 GOTO FAIL
+  :: Hack for Qt5 lupdate failures
+  sed -i -e "s/^\(\ *QT += dbus\)/#\1/" ./unixconf.pri
 ) ELSE (
   patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;%BUILDROOT%\jom;%PATH%"
-  CD .\src
-  lupdate -no-obsolete ./src.pro
-  IF ERRORLEVEL 1 GOTO FAIL
-  CD ..\
 )
+lupdate -recursive -no-obsolete ./qbittorrent.pro
+IF ERRORLEVEL 1 GOTO FAIL
 MD build
 CD build
 IF NOT DEFINED LOG (
