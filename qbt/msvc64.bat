@@ -77,7 +77,7 @@ GOTO CONTINUE
 :BEGIN
 :: Bitch please
 :: Required for nested loops and ifs
-Setlocal EnableDelayedExpansion
+REM Setlocal EnableDelayedExpansion
 SET "INST_DIR=%BUILDROOT%\qBittorrent64"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
