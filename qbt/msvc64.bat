@@ -4,6 +4,10 @@
 :: SET "NO_TAINT=1" - if defined experimental branch will bot be used
 :: SET "TAG_RELEASE=3.0.8" - if defined build the defined release tag instead of master branch
 :: SET "NO_PUBLIC=1" - do not make archive and do not build installer
+
+:: TODO
+:: Changelog generation
+:: $ git diff -U0 release-3.0.11 release-3.1.0 Changelog | grep -vE "^\+{3,3} .\/Changelog$" | grep -E "^\+" | sed -e "s/^\+\(.*\)/\1/" > some/file.ext
 GOTO BEGIN
 :CLEANUP
 CD /D %CWD%

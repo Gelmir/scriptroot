@@ -5,6 +5,6 @@ SET "PATH=%BUILDROOT%\tx;%PATH%"
 CD /D %HOMEPATH%\Documents\GitHub\qBittorrent
 
 :: Get new Translations
-tx pull -f -r qbittorrent.qbittorrent_ents
+tx pull -f -r qbittorrent.qbittorrent_master
 CD /D %CWD%
 CALL %SCRIPTROOT%\virgin.bat restore
