@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\Boost RD /S /Q %SOURCEROOT%\Boost
 MD %SOURCEROOT%\Boost
 CD %SOURCEROOT%\Boost
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.54.7z -o%SOURCEROOT%\Boost
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.55.7z -o%SOURCEROOT%\Boost
 IF EXIST %BUILDROOT%\Boost\bjam64 RD /S /Q %BUILDROOT%\Boost\bjam64
 CD .\tools\build\v2
 CALL .\bootstrap.bat vc10
