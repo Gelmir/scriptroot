@@ -41,7 +41,7 @@ IF NOT DEFINED RC (
 )
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 IF DEFINED LOG SET "LOG=disk-stats=on logging=default"
-bjam -j4 -q --toolset=msvc --prefix=%INST_DIR% %LOG% boost=system boost-link=shared link=shared runtime-link=shared variant=release debug-symbols=off resolve-countries=on full-stats=on export-extra=off ipv6=on dht-support=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
+bjam -j4 -q --toolset=msvc --prefix=%INST_DIR% %LOG% boost=system boost-link=shared link=shared runtime-link=shared variant=release debug-symbols=off resolve-countries=on full-stats=on export-extra=off ipv6=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
 :END
