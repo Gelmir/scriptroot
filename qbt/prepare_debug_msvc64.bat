@@ -2,11 +2,13 @@
 GOTO BEGIN
 :CLEANUP
 SET QBT_ROOT=
+SET QT5=
 GOTO END
 :FAIL
 ECHO Building failed, leaving source tree as is and dumping custom env vars
 IF DEFINED QBT_ROOT ECHO QBT_ROOT = %QBT_ROOT%
 SET QBT_ROOT=
+SET QT5=
 GOTO END
 :BEGIN
 SET "QBT_ROOT=C:\_\WORK\qBittorrent"
@@ -19,7 +21,11 @@ IF EXIST %TEMP%\qbittorrent.pro.user COPY /Y %TEMP%\qbittorrent.pro.user %QBT_RO
 IF ERRORLEVEL 1 GOTO FAIL
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o%QBT_ROOT%\src\geoip\
 IF ERRORLEVEL 1 GOTO FAIL
-patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d.patch
+IF DEFINED QT5 (
+  patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d_Qt5.patch
+) ELSE (
+  patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d.patch
+)
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
 :END
