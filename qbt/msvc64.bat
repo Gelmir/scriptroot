@@ -76,7 +76,21 @@ IF DEFINED TAG_RELEASE (
 :: noop
 ECHO.
 FOR /F "delims=" %%X IN ('git describe --long') DO @SET GIT_TAG=%%X
+IF NOT DEFINED TAG_RELEASE (
+  SET "PATH=%BUILDROOT%\tx;%PATH%"
+  :: Pull new translations from transifex
+  tx pull -f -r qbittorrent.qbittorrent_master
+)
+:: noop
+ECHO.
 XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\qBittorrent %SOURCEROOT%\qbittorrent\
+:: noop
+ECHO.
+IF NOT DEFINED TAG_RELEASE (
+  git reset --hard
+)
+:: noop
+ECHO.
 GOTO CONTINUE
 :BEGIN
 :: Bitch please
