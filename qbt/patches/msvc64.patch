@@ -1,17 +1,3 @@
-diff --binary -ruN 1/src/src.pro 2/src/src.pro
---- 1/src/src.pro	2013-03-10 23:48:31.676415500 +0400
-+++ 2/src/src.pro	2013-03-10 23:51:30.814661600 +0400
-@@ -56,10 +56,6 @@
- # Fast concatenation (Qt >= 4.6)
- DEFINES += QT_USE_FAST_CONCATENATION QT_USE_FAST_OPERATOR_PLUS
- 
--# Fixes compilation with Boost >= v1.46 where boost
--# filesystem v3 is the default.
--DEFINES += BOOST_FILESYSTEM_VERSION=2
--
- INCLUDEPATH += $$PWD
- 
- 
 diff --binary -ruN 1/winconf-msvc.pri 2/winconf-msvc.pri
 --- 1/winconf-msvc.pri	2013-03-10 23:48:31.677415500 +0400
 +++ 2/winconf-msvc.pri	2013-03-10 23:52:18.887411200 +0400
