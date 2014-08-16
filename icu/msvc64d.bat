@@ -23,9 +23,11 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\icu RD /S /Q %SOURCEROOT%\icu
 MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-51.2.7z -o%SOURCEROOT%\icu
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-53.1.7z -o%SOURCEROOT%\icu
 :: HACK
 SET VisualStudioVersion=11.0
+patch -p1 -Nfi %SCRIPTROOT%\icu\patches\intltest.patch
+IF ERRORLEVEL 1 GOTO FAIL
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
 msbuild.exe /m .\source\allinone\allinone.sln /p:Configuration="Debug" /p:Platform="x64" /p:PlatformToolset=v110
 IF ERRORLEVEL 1 GOTO FAIL
