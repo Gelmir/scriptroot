@@ -28,7 +28,7 @@ IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 IF NOT DEFINED RC (
-  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-0.16.16.7z -o%SOURCEROOT%\libtorrent
+  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.1.7z -o%SOURCEROOT%\libtorrent
   patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\export_fix.patch
   IF ERRORLEVEL 1 GOTO FAIL
 ) ELSE (
