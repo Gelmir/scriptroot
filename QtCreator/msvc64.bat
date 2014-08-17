@@ -36,8 +36,7 @@ XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\QtCreator %SOURCEROOT%\QtCrea
 SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
 MD qtcb
 CD qtcb
-:: LTCG is broken
-qmake -config release -r ../qtcreator.pro "CONFIG += warn_off mmx sse sse2" "CONFIG -= 3dnow ltcg"
+qmake -config release -r ../qtcreator.pro "CONFIG += warn_off mmx sse sse2 ltcg" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
@@ -58,7 +57,7 @@ SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\qtbase RD /S /Q %SOURCEROOT%\qtbase
-"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-5.2.0.7z qtbase\mkspecs
+"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-5.3.1.7z qtbase\mkspecs
 SET "QMAKESPEC=%SOURCEROOT%\qtbase\mkspecs\win32-msvc2012"
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off msvc_mp ltcg mmx sse sse2" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
@@ -74,7 +73,7 @@ COPY /Y %BUILDROOT%\Qt\Qt5_x64_full\doc\*.qch %INSTALL_ROOT%\share\doc\
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INSTALL_ROOT%\bin\
 :: Copy whatever 'nmake bindist' forgot to copy
 XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INSTALL_ROOT%\bin\plugins\
-FOR %%X IN (icudt51.dll icuin51.dll icuuc51.dll) DO (
+FOR %%X IN (icudt53.dll icuin53.dll icuuc53.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
 :: Purge .lib files
