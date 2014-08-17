@@ -22,7 +22,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.2.0.7z -o%SOURCEROOT%\Qt qtbase qtsvg qtactiveqt qttools qtimageformats qttranslations README .sha1s .tag configure* LGPL_EXCEPTION.txt LICENSE* qt.pro README
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.3.1.7z -o%SOURCEROOT%\Qt qtbase qtsvg qtactiveqt qttools qtimageformats qttranslations README .sha1s .tag configure* LGPL_EXCEPTION.txt LICENSE* qt.pro README
 :: Skip some stuff
 :: -skip qtdeclarative -skip qtjsbackend -skip qtmultimedia -skip qtquick1 -skip qtquickcontrols -skip qtscript -skip qtwebkit -skip qtxmlpatterns -skip qtx11extras -skip qtsensors -skip qtserialport
 CALL configure.bat -debug -shared -opensource -confirm-license -platform win32-msvc2012 -no-ltcg -no-accessibility -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -no-opengl -no-angle -no-openvg -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-vcproj -no-incredibuild-xge -plugin-manifests -process -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-audio-backend -no-qml-debug -no-style-windowsmobile -no-style-windowsce -qt-style-fusion -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -no-directwrite -qmake -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64d\include -L %BUILDROOT%\OpenSSL\OpenSSL64d\lib -prefix %INST_DIR%

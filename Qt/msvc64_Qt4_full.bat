@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-4.8.5.7z -o%SOURCEROOT%\Qt
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-4.8.6.7z -o%SOURCEROOT%\Qt
 patch --binary -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc64_Qt4.diff
 IF ERRORLEVEL 1 GOTO FAIL
 :: Required to build webkit
@@ -30,9 +30,6 @@ patch -p1 -Nfi %SCRIPTROOT%\Qt\patches\msvc2012_WebKit_HashSet.patch
 IF ERRORLEVEL 1 GOTO FAIL
 perl -pe "s/qtwebkit/src\/3rdparty\/webkit/" < %SCRIPTROOT%\Qt\patches\5.1.1-webkit-msvc2012.patch | patch -p1 -Nf 
 IF ERRORLEVEL 1 GOTO FAIL
-:: Remove shitload of _HAS_TR1 redifinition warnings on msvc2010
-sed -b -e "/^win32-\*\: DEFINES += _HAS_TR1=0.*/d" < .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri > .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT%
-MOVE /Y .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri.%SEDEXT% .\src\3rdparty\webkit\Source\JavaScriptCore\JavaScriptCore.pri
 :: Remove .orig files created by patch
 FOR /R .\ %%X IN (*.orig) DO (
 	DEL /Q %%X
