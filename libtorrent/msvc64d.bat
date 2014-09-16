@@ -25,20 +25,13 @@ IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 IF NOT DEFINED RC (
-  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.1.7z -o%SOURCEROOT%\libtorrent
-  patch --binary -p1 -Nfi %SCRIPTROOT%\libtorrent\patches\export_fix.patch
-  IF ERRORLEVEL 1 GOTO FAIL
+  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.2.7z -o%SOURCEROOT%\libtorrent
 ) ELSE (
   XCOPY /Y /E /Q /I C:\Users\Dayman\Documents\vcs\libtorrent %SOURCEROOT%\libtorrent\
-  COPY /Y %SCRIPTROOT%\libtorrent\patches\export_fix.patch %SOURCEROOT%\libtorrent\
-  unix2dos %SOURCEROOT%\libtorrent\export_fix.patch
-  IF ERRORLEVEL 1 GOTO FAIL
-  patch -p1 -Nfi %SOURCEROOT%\libtorrent\export_fix.patch
-  IF ERRORLEVEL 1 GOTO FAIL
 )
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 :: Disable asserts and invariant checks, we only need symbols; about invariant checks btw: http://kaba.hilvi.org/pastel/pastel/sys/ensure.htm
-bjam -j4 -q --toolset=msvc --prefix=%INST_DIR% boost=system boost-link=shared link=shared runtime-link=shared variant=debug debug-symbols=on asserts=off invariant-checks=off resolve-countries=on full-stats=on export-extra=off ipv6=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" "include=%BUILDROOT%\OpenSSL\OpenSSL64d\include" "include=%BUILDROOT%\Boost\Boost64d\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64d\lib" "library-path=%BUILDROOT%\Boost\Boost64d\lib" "define=BOOST_ALL_NO_LIB" install
+bjam -j4 -q --toolset=msvc --prefix=%INST_DIR% boost=system boost-link=shared link=shared runtime-link=shared variant=debug debug-symbols=on asserts=off invariant-checks=off resolve-countries=on full-stats=on export-extra=on ipv6=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" "include=%BUILDROOT%\OpenSSL\OpenSSL64d\include" "include=%BUILDROOT%\Boost\Boost64d\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64d\lib" "library-path=%BUILDROOT%\Boost\Boost64d\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL
 :: Copy debug symbols
 FOR /R .\ %%X IN (torrent.pdb) DO (
