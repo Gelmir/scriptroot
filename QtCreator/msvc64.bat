@@ -42,6 +42,8 @@ jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 docs
 IF ERRORLEVEL 1 GOTO FAIL
+jom -j1 deployqt
+IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 bindist
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install_docs
@@ -73,7 +75,7 @@ COPY /Y %BUILDROOT%\Qt\Qt5_x64_full\doc\*.qch %INSTALL_ROOT%\share\doc\
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INSTALL_ROOT%\bin\
 :: Copy whatever 'nmake bindist' forgot to copy
 XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INSTALL_ROOT%\bin\plugins\
-FOR %%X IN (icudt53.dll icuin53.dll icuuc53.dll) DO (
+FOR %%X IN (icudt54.dll icuin54.dll icuuc54.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
 :: Purge .lib files
