@@ -22,13 +22,13 @@ IF EXIST %SOURCEROOT%\Boost RD /S /Q %SOURCEROOT%\Boost
 MD %SOURCEROOT%\Boost
 CD %SOURCEROOT%\Boost
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.55.7z -o%SOURCEROOT%\Boost
-CD .\tools\build\
 IF EXIST %BUILDROOT%\Boost\bjam64 RD /S /Q %BUILDROOT%\Boost\bjam64
+CD .\tools\build\v2
 CALL .\bootstrap.bat
 IF ERRORLEVEL 1 GOTO FAIL
 .\b2.exe --toolset=msvc architecture=x86 address-model=64 --prefix=%BUILDROOT%\Boost\bjam64 link=shared runtime-link=shared variant=release debug-symbols=off warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:AMD64" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" install
 IF ERRORLEVEL 1 GOTO FAIL
-CD ..\..\
+CD ..\..\..\
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 @ECHO OFF
 bjam -j4 -q --with-system --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=release debug-symbols=off threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" install
