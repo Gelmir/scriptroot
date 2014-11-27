@@ -1,0 +1,48 @@
+diff --binary -ruN 1/mkspecs/win32-g++/qmake.conf 2/mkspecs/win32-g++/qmake.conf
+--- 1/mkspecs/win32-g++/qmake.conf	2013-06-07 09:17:00.000000000 +0400
++++ 2/mkspecs/win32-g++/qmake.conf	2013-08-01 19:54:03.947481900 +0400
+@@ -27,11 +27,11 @@
+ QMAKE_LEXFLAGS		=
+ QMAKE_YACC		= byacc
+ QMAKE_YACCFLAGS		= -d
+-QMAKE_CFLAGS		= -pipe
++QMAKE_CFLAGS		= -pipe -mtune=generic -mmmx -msse -msse2 -fstack-protector-all
+ QMAKE_CFLAGS_DEPS	= -M
+ QMAKE_CFLAGS_WARN_ON	= -Wall -Wextra
+ QMAKE_CFLAGS_WARN_OFF	= -w
+-QMAKE_CFLAGS_RELEASE	= -O2
++QMAKE_CFLAGS_RELEASE	= -O2 -fomit-frame-pointer -fpredictive-commoning -finline-small-functions
+ QMAKE_CFLAGS_DEBUG	= -g
+ QMAKE_CFLAGS_YACC	= -Wno-unused -Wno-parentheses
+ 
+@@ -60,7 +60,7 @@
+ 
+ QMAKE_LINK		= $${CROSS_COMPILE}g++
+ QMAKE_LINK_C		= $${CROSS_COMPILE}gcc
+-QMAKE_LFLAGS		=
++QMAKE_LFLAGS		= -fstack-protector-all -Wl,-O1 -Wl,--as-needed -Wl,--nxcompat -Wl,--dynamicbase
+ QMAKE_LFLAGS_EXCEPTIONS_ON = -mthreads
+ QMAKE_LFLAGS_EXCEPTIONS_OFF =
+ QMAKE_LFLAGS_RELEASE	= -Wl,-s
+diff --binary -ruN 1/qmake/Makefile.win32-g++ 2/qmake/Makefile.win32-g++
+--- 1/qmake/Makefile.win32-g++	2013-06-07 09:17:01.000000000 +0400
++++ 2/qmake/Makefile.win32-g++	2013-08-01 19:53:26.357430000 +0400
+@@ -27,7 +27,7 @@
+ 		-DQT_BUILD_QMAKE -DQT_NO_THREAD -DQT_NO_QOBJECT -DQT_NO_GEOM_VARIANT -DQT_NO_DATASTREAM \
+ 		-DQT_BOOTSTRAPPED -DQLIBRARYINFO_EPOCROOT
+ CXXFLAGS    =   $(CFLAGS)
+-LFLAGS      = -static-libgcc -s
++LFLAGS      = -static-libgcc -s -fstack-protector-all -Wl,-s -Wl,-O1 -Wl,--as-needed -Wl,--nxcompat -Wl,--dynamicbase
+ LIBS	    = -lole32 -luuid -ladvapi32 -lkernel32
+ LINKQMAKE   =	g++ $(LFLAGS) -o qmake.exe $(OBJS) $(QTOBJS) $(LIBS)
+ ADDCLEAN    =
+@@ -42,7 +42,8 @@
+               symmake_abld.o symmake_sbsv2.o symbiancommon.o registry.o epocroot.o gbuild.o
+ 
+ ifdef QMAKE_OPENSOURCE_EDITION
+-CFLAGS      += -DQMAKE_OPENSOURCE_EDITION
++CFLAGS      += -DQMAKE_OPENSOURCE_EDITION -mtune=generic -mmmx -msse -msse2 -pipe -fstack-protector-all \
++				-O3 -fomit-frame-pointer -fpredictive-commoning -finline-small-functions
+ endif
+ 
+ #qt code

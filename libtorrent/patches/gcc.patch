@@ -1,0 +1,79 @@
+--- a/branches/RC_1_0/src/session_impl.cpp
++++ b/branches/RC_1_0/src/session_impl.cpp
+@@ -1972,7 +1972,7 @@
+ 		{
+ 			error_code ec;
+ 
+-#if TORRENT_USE_IPV6
++#if TORRENT_USE_IPV6 && defined IPV6_TCLASS
+ 			if (m_udp_socket.local_endpoint(ec).address().is_v6())
+ 				m_udp_socket.set_option(traffic_class(s.peer_tos), ec);
+ 			else
+@@ -2397,7 +2397,7 @@
+ 
+ 		if (m_settings.peer_tos != 0) {
+ 
+-#if TORRENT_USE_IPV6
++#if TORRENT_USE_IPV6 && defined IPV6_TCLASS
+ 			if (m_udp_socket.local_endpoint(ec).address().is_v6())
+ 				m_udp_socket.set_option(traffic_class(m_settings.peer_tos), ec);
+ 			else
+--- a/branches/RC_1_0/src/broadcast_socket.cpp
++++ b/branches/RC_1_0/src/broadcast_socket.cpp
+@@ -261,7 +261,9 @@
+ 
+ 			// if_nametoindex was introduced in vista
+ #if TORRENT_USE_IPV6 \
+-		&& (!defined TORRENT_WINDOWS || _WIN32_WINNT >= _WIN32_WINNT_VISTA)
++		&& (!defined TORRENT_WINDOWS || _WIN32_WINNT >= _WIN32_WINNT_VISTA) \
++		&& !defined TORRENT_MINGW
++
+ 			if (i->interface_address.is_v6() &&
+ 			    i->interface_address.to_v6().is_link_local()) {
+ 				address_v6 addr6 = i->interface_address.to_v6();
+@@ -273,6 +275,7 @@
+ 				open_unicast_socket(ios, addr6, mask);
+ 				continue;
+ 			}
++
+ #endif
+ 			open_multicast_socket(ios, i->interface_address, loopback, ec);
+ #ifdef TORRENT_DEBUG
+--- a/branches/RC_1_0/src/peer_connection.cpp
++++ b/branches/RC_1_0/src/peer_connection.cpp
+@@ -486,7 +486,7 @@
+ 				peer_log(">>> SET_TOS[ tos: %d e: %s ]", m_ses.settings().peer_tos, ec.message().c_str());
+ #endif
+ 			}
+-#if TORRENT_USE_IPV6
++#if TORRENT_USE_IPV6 && defined IPV6_TCLASS
+ 			else if (m_remote.address().is_v6() && m_ses.settings().peer_tos != 0)
+ 			{
+ 				m_socket->set_option(traffic_class(m_ses.settings().peer_tos), ec);
+@@ -5597,7 +5597,7 @@
+ 			peer_log(">>> SET_TOS[ tos: %d e: %s ]", m_ses.settings().peer_tos, ec.message().c_str());
+ #endif
+ 		}
+-#if TORRENT_USE_IPV6
++#if TORRENT_USE_IPV6 && defined IPV6_TCLASS
+ 		else if (m_remote.address().is_v6() && m_ses.settings().peer_tos != 0)
+ 		{
+ 			m_socket->set_option(traffic_class(m_ses.settings().peer_tos), ec);
+--- a/branches/RC_1_0/include/libtorrent/socket.hpp
++++ b/branches/RC_1_0/include/libtorrent/socket.hpp
+@@ -135,6 +135,7 @@
+ 	};
+ #endif
+ 
++#ifdef IPV6_TCLASS
+ 	struct traffic_class
+ 	{
+ 		traffic_class(char val): m_value(val) {}
+@@ -148,6 +149,7 @@
+ 		size_t size(Protocol const&) const { return sizeof(m_value); }
+ 		int m_value;
+ 	};
++#endif
+ 
+ 	struct type_of_service
+ 	{
