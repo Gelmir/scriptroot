@@ -81,12 +81,14 @@ Source: "{#MyFilesRoot}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; Hack for pdb inclusion on different versions
 Source: "{#MyFilesRoot}\{#MyAppPdbName}"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Boost
-Source: "{#MyFilesRoot}\boost_system.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyFilesRoot}\boost_system.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\libboost_system.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; OpenSSL
 Source: "{#MyFilesRoot}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyFilesRoot}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; libtorrent-rasterbar
-Source: "{#MyFilesRoot}\torrent.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyFilesRoot}\torrent.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\libtorrent.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Qt shared files
 Source: "{#MyFilesRoot}\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\translations\*"; DestDir: "{app}\translations"; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
@@ -103,8 +105,15 @@ Source: "{#MyFilesRoot}\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion 
 Source: "{#MyFilesRoot}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Visual C++ 2012 x64 Redistributable
-Source: "{#MyFilesRoot}\msvcp110.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#MyFilesRoot}\msvcr110.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyFilesRoot}\msvcp110.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\msvcr110.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Gcc runtime
+Source: "{#MyFilesRoot}\libgcc_s_seh-1.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+; Debug helper for stacktraces
+Source: "{#MyFilesRoot}\dbghelp.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; App to kill process by name
 Source: "{#PACKDIR}\processviewer.exe"; Flags: dontcopy
 ; License
