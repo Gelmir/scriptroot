@@ -150,7 +150,7 @@ IF %QT_VER% == 5 (
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt4_gcc64_qbt\bin;%PATH%"
 )
-REM lupdate -recursive -no-obsolete ./qbittorrent.pro
+lupdate -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
 MD build
 CD build
@@ -202,11 +202,12 @@ echo [Paths] > %INST_DIR%\qt.conf
 echo Translations = ./translations >> %INST_DIR%\qt.conf
 echo Plugins = ./plugins >> %INST_DIR%\qt.conf
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64_G\bin\*.dll %INST_DIR%\
-COPY /Y %BUILDROOT%\libtorrent\libtorrent64_G\lib\torrent.dll %INST_DIR%\
+COPY /Y %BUILDROOT%\libtorrent\libtorrent64_G\lib\libtorrent.dll %INST_DIR%\
 XCOPY /Y /Q %BUILDROOT%\Boost\Boost64_G\lib\*.dll %INST_DIR%\
-:: Copy VC++ 2012 x64 Redist DLLs
-REM COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcp110.dll" %INST_DIR%\
-REM COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcr110.dll" %INST_DIR%\
+FOR %%X IN (libgcc_s_seh-1.dll libssp-0.dll libstdc++-6.dll libwinpthread-1.dll) DO (
+  COPY /Y C:\_\MinGW\bin\%%X %INST_DIR%\
+)
+COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x86\dbghelp.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
 unix2dos -ascii %INST_DIR%\LICENSE.txt
