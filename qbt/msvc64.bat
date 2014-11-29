@@ -208,6 +208,7 @@ XCOPY /Y /Q %BUILDROOT%\Boost\Boost64\lib\*.dll %INST_DIR%\
 :: Copy VC++ 2012 x64 Redist DLLs
 COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcp110.dll" %INST_DIR%\
 COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcr110.dll" %INST_DIR%\
+COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x86\dbghelp.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
 unix2dos -ascii %INST_DIR%\LICENSE.txt
