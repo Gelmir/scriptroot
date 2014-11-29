@@ -148,7 +148,7 @@ IF %QT_VER% == 5 (
 ) ELSE (
   patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
   IF ERRORLEVEL 1 GOTO FAIL
-  SET "PATH=%BUILDROOT%\Qt\Qt4_x64_full\bin;%BUILDROOT%\jom;%PATH%"
+  SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 )
 lupdate -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
@@ -187,14 +187,14 @@ IF %QT_VER% == 5 (
   XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qtbase_* %INST_DIR%\translations\
 ) ELSE (
   FOR %%X IN (QtCore4.dll QtGui4.dll QtNetwork4.dll QtXml4.dll) DO (
-    COPY /Y %BUILDROOT%\Qt\Qt4_x64_full\bin\%%X %INST_DIR%\
+    COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\%%X %INST_DIR%\
   )
   :: Only qico4.dll is required
-  XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_full\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
+  XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
   :: Use newer Qt translations if possible
   FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\src\qt-translations\"`) DO (
-    IF EXIST "%BUILDROOT%\Qt\Qt4_x64_full\translations\%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt4_x64_full\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+    IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
+      COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
     )
   )
   XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qt_* %INST_DIR%\translations\
