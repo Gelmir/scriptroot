@@ -136,6 +136,7 @@ IF DEFINED TAG_RELEASE (
   FOR /F "delims=" %%X IN ('findstr /R "^VER_MAJOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
   FOR /F "delims=" %%X IN ('findstr /R "^VER_MINOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
   FOR /F "delims=" %%X IN ('findstr /R "^VER_BUGFIX" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+  FOR /F "delims=" %%X IN ('findstr /R "^VER_STATUS" .\version.pri ^| sed -e "s/^.* = \(.*\) #.*/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!%%X"
 )
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o.\src\geoip\
 IF NOT DEFINED NO_TAINT (
@@ -211,7 +212,7 @@ XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64_G\bin\*.dll %INST_DIR%\
 COPY /Y %BUILDROOT%\libtorrent\libtorrent64_G\lib\libtorrent.dll %INST_DIR%\
 XCOPY /Y /Q %BUILDROOT%\Boost\Boost64_G\lib\*.dll %INST_DIR%\
 FOR %%X IN (libgcc_s_seh-1.dll libssp-0.dll libstdc++-6.dll libwinpthread-1.dll) DO (
-  COPY /Y C:\_\MinGW\bin\%%X %INST_DIR%\
+  COPY /Y "C:\_\MinGW\bin\%%X" %INST_DIR%\
 )
 COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x86\dbghelp.dll" %INST_DIR%\
 :: Copy License
