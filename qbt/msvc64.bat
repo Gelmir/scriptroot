@@ -110,7 +110,7 @@ GOTO CONTINUE
 :BEGIN
 :: Bitch please
 :: Required for nested loops and ifs
-REM Setlocal EnableDelayedExpansion
+Setlocal EnableDelayedExpansion
 SET "INST_DIR=%BUILDROOT%\qBittorrent64"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
@@ -130,7 +130,13 @@ GOTO GIT_CMDS
 :CONTINUE
 CD /D %SOURCEROOT%\qbittorrent
 :: Get qBt version for packaging
-FOR /F "delims=" %%X IN ('findstr /R "^PROJECT_VERSION" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
+IF DEFINED TAG_RELEASE (
+  FOR /F "delims=" %%X IN ('findstr /R "^PROJECT_VERSION" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
+) ELSE (
+  FOR /F "delims=" %%X IN ('findstr /R "^VER_MAJOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
+  FOR /F "delims=" %%X IN ('findstr /R "^VER_MINOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+  FOR /F "delims=" %%X IN ('findstr /R "^VER_BUGFIX" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+)
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o.\src\geoip\
 IF NOT DEFINED NO_TAINT (
   SET QT_VER=5
