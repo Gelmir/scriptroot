@@ -20,7 +20,7 @@ SET CWD=%CD%
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-0.16.18.7z -o%SOURCEROOT%\libtorrent
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-0.16.19.7z -o%SOURCEROOT%\libtorrent
 sed -i -e "s/^\(.*<name>\)ssleay32\(.*\)/\1libssl\2/" -e "s/^\(.*<name>\)libeay32\(.*\)/\1libcrypto\2/" %SOURCEROOT%\libtorrent\Jamfile
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;C:\_\MinGW\bin;%PATH%"
 SET LC_ALL=C

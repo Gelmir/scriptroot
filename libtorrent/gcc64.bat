@@ -19,9 +19,9 @@ CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.2.7z -o%SOURCEROOT%\libtorrent
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.3.7z -o%SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
-patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\gcc.patch
+REM patch --binary -p3 -Nfi %SCRIPTROOT%\libtorrent\patches\gcc.patch
 IF ERRORLEVEL 1 GOTO FAIL
 sed -i -e "s/^\(.*<name>\)ssleay32\(.*\)/\1libssl\2/" -e "s/^\(.*<name>\)libeay32\(.*\)/\1libcrypto\2/" %SOURCEROOT%\libtorrent\Jamfile
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;C:\_\MinGW\bin;%PATH%"
