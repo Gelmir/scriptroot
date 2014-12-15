@@ -25,19 +25,19 @@ diff --binary -ruN qt/qtbase/mkspecs/win32-g++/qmake.conf qt2/qtbase/mkspecs/win
  QMAKE_LFLAGS_EXCEPTIONS_OFF =
  QMAKE_LFLAGS_RELEASE    = -Wl,-s
 diff --binary -ruN qt/qtbase/qmake/Makefile.unix qt2/qtbase/qmake/Makefile.unix
---- qt/qtbase/qmake/Makefile.unix	2014-09-11 14:48:00.000000000 +0400
-+++ qt2/qtbase/qmake/Makefile.unix	2014-11-27 00:43:12.173663100 +0300
-@@ -101,7 +101,8 @@
+--- qt/qtbase/qmake/Makefile.unix	2014-12-14 20:49:19.385170300 +0300
++++ qt2/qtbase/qmake/Makefile.unix	2014-12-14 20:48:51.290562000 +0300
+@@ -103,7 +103,8 @@
  	   -DQT_BUILD_QMAKE -DQT_BOOTSTRAPPED -DPROEVALUATOR_FULL \
  	   -DQT_NO_TEXTCODEC -DQT_NO_UNICODETABLES -DQT_NO_COMPONENT -DQT_NO_COMPRESS \
  	   -DQT_NO_THREAD -DQT_NO_QOBJECT -DQT_NO_GEOM_VARIANT -DQT_NO_DATASTREAM \
--	   -DQT_CRYPTOGRAPHICHASH_ONLY_SHA1 -DQT_JSON_READONLY
-+	   -DQT_CRYPTOGRAPHICHASH_ONLY_SHA1 -DQT_JSON_READONLY -mtune=generic -mmmx -msse -msse2 -pipe -fstack-protector-all \
+-	   -DQT_CRYPTOGRAPHICHASH_ONLY_SHA1 -DQT_JSON_READONLY -DQT_NO_STANDARDPATHS
++	   -DQT_CRYPTOGRAPHICHASH_ONLY_SHA1 -DQT_JSON_READONLY -DQT_NO_STANDARDPATHS -mtune=generic -mmmx -msse -msse2 -pipe -fstack-protector-all \
 +	   -O3 -fomit-frame-pointer -fpredictive-commoning -finline-small-functions
  
  CXXFLAGS = $(EXTRA_CXXFLAGS) $(CPPFLAGS)
  
-@@ -109,7 +110,7 @@
+@@ -111,7 +112,7 @@
  qmake: $(BUILD_PATH)/bin/qmake$(EXEEXT)
  
  $(BUILD_PATH)/bin/qmake$(EXEEXT): $(OBJS) $(QOBJS)
