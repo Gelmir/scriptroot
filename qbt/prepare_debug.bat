@@ -30,14 +30,14 @@ IF NOT DEFINED GCC GOTO MSVC
 GOTO MINGW
 :MSVC
 IF DEFINED QT5 (
-  patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d_Qt5.patch
+  patch -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d_Qt5.patch
 ) ELSE (
-  patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d.patch
+  patch -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\msvc64d.patch
 )
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
 :MINGW
-patch --binary -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\gcc64.patch
+patch -d %QBT_ROOT% -p1 -Nsfi %SCRIPTROOT%\qbt\patches\gcc64.patch
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
 :END

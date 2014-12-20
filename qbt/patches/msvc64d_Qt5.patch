@@ -1,6 +1,6 @@
-diff -ruN --binary 1/winconf-msvc.pri 2/winconf-msvc.pri
---- 1/winconf-msvc.pri	2013-10-04 19:12:37.644323000 +0400
-+++ 2/winconf-msvc.pri	2013-10-04 19:27:15.658146900 +0400
+diff -ruN qBittorrent_orig/winconf-msvc.pri qBittorrent/winconf-msvc.pri
+--- qBittorrent_orig/winconf-msvc.pri	2014-12-20 20:29:41.875714700 +0300
++++ qBittorrent/winconf-msvc.pri	2014-12-21 01:45:35.862048000 +0300
 @@ -20,11 +20,11 @@
  
  #Adapt the lib names/versions accordingly
@@ -17,9 +17,9 @@ diff -ruN --binary 1/winconf-msvc.pri 2/winconf-msvc.pri
  }
  
  LIBS += advapi32.lib shell32.lib crypt32.lib User32.lib
-diff -ruN --binary 1/winconf.pri 2/winconf.pri
---- 1/winconf.pri	2013-10-04 01:46:35.949154800 +0400
-+++ 2/winconf.pri	2013-10-04 19:29:17.603315200 +0400
+diff -ruN qBittorrent_orig/winconf.pri qBittorrent/winconf.pri
+--- qBittorrent_orig/winconf.pri	2014-12-21 00:43:41.042576300 +0300
++++ qBittorrent/winconf.pri	2014-12-21 01:46:44.692168500 +0300
 @@ -1,32 +1,38 @@
  # Adapt these paths on Windows
  

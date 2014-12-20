@@ -147,13 +147,13 @@ IF NOT DEFINED NO_TAINT (
 :: noop
 ECHO.
 IF %QT_VER% == 5 (
-  patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64_Qt5.patch
+  patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64_Qt5.patch
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%PATH%"
   :: Hack for Qt5 lupdate failures
   sed -i -e "s/^\(\ *QT += dbus\)/#\1/" ./unixconf.pri
 ) ELSE (
-  patch --binary -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
+  patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 )

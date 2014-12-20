@@ -1,7 +1,7 @@
-diff --binary -ruN 1/winconf-msvc.pri 2/winconf-msvc.pri
---- 1/winconf-msvc.pri	2013-03-10 23:48:31.677415500 +0400
-+++ 2/winconf-msvc.pri	2013-03-10 23:52:18.887411200 +0400
-@@ -18,11 +18,11 @@
+diff -ruN qBittorrent_orig/winconf-msvc.pri qBittorrent/winconf-msvc.pri
+--- qBittorrent_orig/winconf-msvc.pri	2014-12-20 20:29:41.875714700 +0300
++++ qBittorrent/winconf-msvc.pri	2014-12-21 01:42:03.151751300 +0300
+@@ -20,11 +20,11 @@
  
  #Adapt the lib names/versions accordingly
  CONFIG(debug, debug|release) {
@@ -16,10 +16,10 @@ diff --binary -ruN 1/winconf-msvc.pri 2/winconf-msvc.pri
 +          boost_system.lib
  }
  
- LIBS += advapi32.lib shell32.lib crypt32.lib
-diff --binary -ruN 1/winconf.pri 2/winconf.pri
---- 1/winconf.pri	2013-03-10 23:48:31.678415600 +0400
-+++ 2/winconf.pri	2013-03-10 23:54:14.708035800 +0400
+ LIBS += advapi32.lib shell32.lib crypt32.lib User32.lib
+diff -ruN qBittorrent_orig/winconf.pri qBittorrent/winconf.pri
+--- qBittorrent_orig/winconf.pri	2014-12-21 00:43:41.042576300 +0300
++++ qBittorrent/winconf.pri	2014-12-21 01:43:35.751880400 +0300
 @@ -1,32 +1,38 @@
  # Adapt these paths on Windows
  
