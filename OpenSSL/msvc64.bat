@@ -39,7 +39,7 @@ SET "LDFLAGS=/NOLOGO /LTCG /OPT:REF /OPT:ICF=5 /subsystem:console"
 SET "MLFLAGS=/NOLOGO /LTCG /OPT:REF /OPT:ICF=5 /subsystem:console /DLL"
 SET "ASFLAGS=nasm -f win64 -DNEAR -Ox"
 SET "PATH=C:\_\NASM;%PATH%"
-perl Configure VC-WIN64A threads shared zlib enable-md2 -I%BUILDROOT%\Zlib\Zlib64\include -L%BUILDROOT%\Zlib\Zlib64\lib --prefix=%INST_DIR%
+perl Configure VC-WIN64A threads shared zlib no-asm enable-md2 -I%BUILDROOT%\Zlib\Zlib64\include -L%BUILDROOT%\Zlib\Zlib64\lib --prefix=%INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
 CALL .\ms\do_win64a.bat
 :: MOTHER OF GOD, NOT THIS SHIT AGAIN
