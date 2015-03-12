@@ -23,6 +23,8 @@ MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.4.1.7z -o%SOURCEROOT%\Qt
 SET "PATH=%BUILDROOT%\icu\icu64\bin64;C:\_\ruby\bin;%SOURCEROOT%\qt\gnuwin32\bin;%INST_DIR%\bin;%PATH%"
+patch -p1 -Nfi %SCRIPTROOT%\Qt\patches\QTBUG-43120.patch
+IF ERRORLEVEL 1 GOTO FAIL
 CALL configure.bat -developer-build -release -shared -opensource -confirm-license -platform win32-msvc2012 -no-ltcg -accessibility -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -opengl desktop -no-angle -no-openvg -qt-zlib -qt-libpng -qt-libjpeg -icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -audio-backend -wmf-backend -qml-debug -no-style-windowsmobile -no-style-windowsce -qt-style-fusion -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -no-directwrite -qmake -nomake examples -nomake tests -skip qtwebkit-examples -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64\include -I %BUILDROOT%\icu\icu64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -L %BUILDROOT%\icu\icu64\lib64 -prefix %INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j4
