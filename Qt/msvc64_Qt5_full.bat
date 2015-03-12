@@ -29,6 +29,14 @@ jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install
 IF ERRORLEVEL 1 GOTO FAIL
+CD qtwebkit
+qmake
+IF ERRORLEVEL 1 GOTO FAIL
+jom -j4
+IF ERRORLEVEL 1 GOTO FAIL
+jom -j1 install
+IF ERRORLEVEL 1 GOTO FAIL
+CD ..
 jom -j1 docs
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install_qch_docs
