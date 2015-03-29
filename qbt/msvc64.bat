@@ -172,6 +172,8 @@ jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
 COPY /Y .\src\release\qbittorrent.exe %INST_DIR%\
 IF EXIST .\src\release\qbittorrent.pdb COPY /Y .\src\release\qbittorrent.pdb %INST_DIR%\
+
+
 IF %QT_VER% == 5 (
   FOR %%X IN (Qt5Core.dll Qt5Gui.dll Qt5Network.dll Qt5Widgets.dll Qt5Xml.dll) DO (
     COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\%%X %INST_DIR%\
@@ -182,16 +184,16 @@ IF %QT_VER% == 5 (
   XCOPY /Y /Q /I /E %BUILDROOT%\Qt\Qt5_x64_qbt\plugins\platforms %INST_DIR%\plugins\platforms
   :: Use newer Qt translations if possible
   :: Now I HAVE to use perl for non-greedy regex :(
-  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\src\qt-translations\" ^| perl -pe "s/^.*?_(.*)/\1/"`) DO (
+  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\dist\qt-translations\" ^| perl -pe "s/^.*?_(.*)/\1/"`) DO (
     IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
     )
     IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
     )
   )
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qt_* %INST_DIR%\translations\
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qtbase_* %INST_DIR%\translations\
+  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qt_* %INST_DIR%\translations\
+  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qtbase_* %INST_DIR%\translations\
 ) ELSE (
   FOR %%X IN (QtCore4.dll QtGui4.dll QtNetwork4.dll QtXml4.dll) DO (
     COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\%%X %INST_DIR%\
@@ -199,13 +201,20 @@ IF %QT_VER% == 5 (
   :: Only qico4.dll is required
   XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
   :: Use newer Qt translations if possible
-  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\src\qt-translations\"`) DO (
+  IF DEFINED TAG_RELEASE (
+    SET "TRDIR=src"
+  ) ELSE (
+    SET "TRDIR=dist"
+  )
+  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\"`) DO (
     IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\src\qt-translations\"
+      COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\"
     )
   )
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\src\qt-translations\qt_* %INST_DIR%\translations\
+  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\qt_* %INST_DIR%\translations\
 )
+
+
 echo [Paths] > %INST_DIR%\qt.conf
 echo Translations = ./translations >> %INST_DIR%\qt.conf
 echo Plugins = ./plugins >> %INST_DIR%\qt.conf
