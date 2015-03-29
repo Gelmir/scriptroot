@@ -34,6 +34,7 @@ MD %SOURCEROOT%\QtCreator
 CD %SOURCEROOT%\QtCreator
 XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
 SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
+sed -ie "s/\(imports = \[.Qt.\), .QtWebKit.\(\]\)/\1\2/" .\scripts\deployqt.py
 MD qtcb
 CD qtcb
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off mmx sse sse2 ltcg" "CONFIG -= 3dnow"
@@ -59,7 +60,7 @@ SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\qtbase RD /S /Q %SOURCEROOT%\qtbase
-"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-5.4.0.7z qtbase\mkspecs
+"C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-5.4.1.7z qtbase\mkspecs
 SET "QMAKESPEC=%SOURCEROOT%\qtbase\mkspecs\win32-msvc2012"
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off msvc_mp ltcg mmx sse sse2" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
