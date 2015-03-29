@@ -211,7 +211,11 @@ echo Translations = ./translations >> %INST_DIR%\qt.conf
 echo Plugins = ./plugins >> %INST_DIR%\qt.conf
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INST_DIR%\
 COPY /Y %BUILDROOT%\libtorrent\libtorrent64\lib\torrent.dll %INST_DIR%\
-XCOPY /Y /Q %BUILDROOT%\Boost\Boost64\lib\*.dll %INST_DIR%\
+COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_system.dll %INST_DIR%\
+:: LT 1.0.4 needs date_time
+IF NOT DEFINED TAG_RELEASE (
+	COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_date_time.dll %INST_DIR%\
+)
 :: Copy VC++ 2012 x64 Redist DLLs
 COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcp110.dll" %INST_DIR%\
 COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC110.CRT\msvcr110.dll" %INST_DIR%\
