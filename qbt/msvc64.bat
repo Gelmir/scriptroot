@@ -22,11 +22,6 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET QT_VER=
-IF DEFINED LT_MOVED (
-	MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_0
-    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_1 %BUILDROOT%\libtorrent\libtorrent64
-	SET LT_MOVED=
-)
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 GOTO END
 :FAIL
@@ -39,7 +34,6 @@ IF DEFINED QBT_VERSION ECHO QBT_VERSION = %QBT_VERSION%
 IF DEFINED QB_STRING ECHO QB_STRING = %QB_STRING%
 IF DEFINED GIT_TAG ECHO GIT_TAG = %GIT_TAG%
 IF DEFINED QT_VER ECHO QT_VER = %QT_VER%
-IF DEFINED LT_MOVED ECHO LT_MOVED = %LT_MOVED%
 IF DEFINED NO_TAINT (
   ECHO Build was not tainted
 ) ELSE (
@@ -63,11 +57,6 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET QT_VER=
-IF DEFINED LT_MOVED (
-	MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_0
-    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_1 %BUILDROOT%\libtorrent\libtorrent64
-	SET LT_MOVED=
-)
 GOTO END
 :: Control git branhes
 :GIT_CMDS
@@ -75,10 +64,7 @@ GOTO END
 IF DEFINED TAG_RELEASE (
   git checkout --merge "release-%TAG_RELEASE%"
   IF ERRORLEVEL 1 GOTO FAIL
-  :: Move libtorrent
-  MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_1
-  MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_0 %BUILDROOT%\libtorrent\libtorrent64
-  SET LT_MOVED=1
+  ECHO.
 ) ELSE (
   IF DEFINED NO_TAINT (
     git checkout --merge "master"
