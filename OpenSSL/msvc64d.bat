@@ -30,7 +30,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\OpenSSL RD /S /Q %SOURCEROOT%\OpenSSL
 MD %SOURCEROOT%\OpenSSL
 CD %SOURCEROOT%\OpenSSL
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\OpenSSL-1.0.2.7z
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\OpenSSL-1.0.2a.7z
 SET "CFLAGS=/favor:blend /Od /Y- /MP /MDd /W3"
 SET "LDFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console"
 SET "MLFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console /DLL"
