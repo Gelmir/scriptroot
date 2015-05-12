@@ -116,12 +116,10 @@ GOTO GIT_CMDS
 :CONTINUE
 CD /D %SOURCEROOT%\qbittorrent
 :: Get qBt version for packaging
-IF DEFINED TAG_RELEASE (
-  FOR /F "delims=" %%X IN ('findstr /R "^PROJECT_VERSION" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
-) ELSE (
-  FOR /F "delims=" %%X IN ('findstr /R "^VER_MAJOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
-  FOR /F "delims=" %%X IN ('findstr /R "^VER_MINOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
-  FOR /F "delims=" %%X IN ('findstr /R "^VER_BUGFIX" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+FOR /F "delims=" %%X IN ('findstr /R "^VER_MAJOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QBT_VERSION=%%X
+FOR /F "delims=" %%X IN ('findstr /R "^VER_MINOR" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+FOR /F "delims=" %%X IN ('findstr /R "^VER_BUGFIX" .\version.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!.%%X"
+IF NOT DEFINED TAG_RELEASE (
   FOR /F "delims=" %%X IN ('findstr /R "^VER_STATUS" .\version.pri ^| sed -e "s/^.* = \(.*\) #.*/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!%%X"
 )
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o.\src\gui\geoip\
