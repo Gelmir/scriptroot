@@ -185,19 +185,13 @@ IF %QT_VER% == 5 (
   :: Only qico4.dll is required
   XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
   :: Use newer Qt translations if possible
-  IF DEFINED TAG_RELEASE (
-    SET "TRDIR=src"
-  ) ELSE (
-    SET "TRDIR=dist"
-  )
-  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\"`) DO (
-    IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\"
-    )
-  )
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\!TRDIR!\qt-translations\qt_* %INST_DIR%\translations\
+	FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\dist\qt-translations\"`) DO (
+		IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
+			COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
+		)
+	)
+	XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qt_* %INST_DIR%\translations\
 )
-
 
 echo [Paths] > %INST_DIR%\qt.conf
 echo Translations = ./translations >> %INST_DIR%\qt.conf
