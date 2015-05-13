@@ -25,7 +25,7 @@ IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 IF NOT DEFINED RC (
-  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.4.7z -o%SOURCEROOT%\libtorrent
+  "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.5.7z -o%SOURCEROOT%\libtorrent
 ) ELSE (
   XCOPY /Y /E /Q /I C:\Users\Dayman\Documents\vcs\libtorrent %SOURCEROOT%\libtorrent\
 )
