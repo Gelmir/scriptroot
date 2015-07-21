@@ -76,7 +76,7 @@ COPY /Y %BUILDROOT%\Qt\Qt5_x64_full\doc\*.qch %INSTALL_ROOT%\share\doc\
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INSTALL_ROOT%\bin\
 :: Copy whatever 'nmake bindist' forgot to copy
 XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INSTALL_ROOT%\bin\plugins\
-FOR %%X IN (icudt54.dll icuin54.dll icuuc54.dll) DO (
+FOR %%X IN (icudt55.dll icuin55.dll icuuc55.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
 :: Purge .lib files

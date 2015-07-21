@@ -42,7 +42,7 @@ XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INST_DIR%\bin\
 COPY /Y %BUILDROOT%\qca64\bin\qca.dll %INST_DIR%\bin\
 XCOPY /E /Y /Q /I %BUILDROOT%\qca64\certs %INST_DIR%\certs\
 XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INST_DIR%\plugins\
-FOR %%X IN (icudt54.dll icuin54.dll icuuc54.dll) DO (
+FOR %%X IN (icudt55.dll icuin55.dll icuuc55.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INST_DIR%\bin
 )
 XCOPY /E /Y /Q /I %BUILDROOT%\qca64\lib\qca\crypto %INST_DIR%\plugins\crypto\

@@ -23,7 +23,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\icu RD /S /Q %SOURCEROOT%\icu
 MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-54.1.7z -o%SOURCEROOT%\icu
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-55.1.7z -o%SOURCEROOT%\icu
 :: HACK
 SET VisualStudioVersion=11.0
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
