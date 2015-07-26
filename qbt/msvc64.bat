@@ -2,8 +2,10 @@
 :: Usage: 
 :: set following env vars to control build flow
 :: SET "NO_TAINT=1" - if defined experimental branch will bot be used
-:: SET "TAG_RELEASE=3.0.8" - if defined build the defined release tag instead of master branch
+:: SET "TAG_RELEASE=release-3.0.8" - if defined build the defined release tag instead of master branch
 :: SET "NO_PUBLIC=1" - do not make archive and do not build installer
+:: SET "QT_VER=[5|4]" - choose between qt version
+:: SET "SIDE_BUILD=1" - uses a different path for the build
 
 :: TODO
 :: Changelog generation
@@ -11,6 +13,9 @@
 GOTO BEGIN
 :CLEANUP
 CD /D %CWD%
+IF %SIDE_BUILD% == 1 (
+	IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
+)
 SET LC_ALL=
 SET PACKAGE=
 SET INST_DIR=
@@ -22,6 +27,7 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET QT_VER=
+SET SIDE_BUILD=
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 GOTO END
 :FAIL
@@ -46,6 +52,7 @@ IF DEFINED TAG_RELEASE (
 )
 IF DEFINED NO_PUBLIC ECHO NO_PUBLIC = %NO_PUBLIC%
 IF DEFINED LOG ECHO LOG = %LOG%
+IF DEFINED SIDE_BUILD ECHO SIDE_BUILD = %SIDE_BUILD%
 SET LC_ALL=
 SET PACKAGE=
 SET INST_DIR=
@@ -57,12 +64,13 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET QT_VER=
+SET SIDE_BUILD=
 GOTO END
 :: Control git branhes
 :GIT_CMDS
 :: Use release tag?
 IF DEFINED TAG_RELEASE (
-  git checkout --merge "release-%TAG_RELEASE%"
+  git checkout --merge "%TAG_RELEASE%"
   IF ERRORLEVEL 1 GOTO FAIL
   ECHO.
 ) ELSE (
@@ -97,7 +105,14 @@ GOTO CONTINUE
 :: Bitch please
 :: Required for nested loops and ifs
 Setlocal EnableDelayedExpansion
-SET "INST_DIR=%BUILDROOT%\qBittorrent64"
+IF NOT DEFINED SIDE_BUILD (
+	SET SIDE_BUILD=0
+)
+IF %SIDE_BUILD% == 1 (
+	SET "INST_DIR=%TEMP%\qBittorrent64"
+) ELSE (
+	SET "INST_DIR=%BUILDROOT%\qBittorrent64"
+)
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
@@ -214,18 +229,14 @@ IF DEFINED NO_PUBLIC GOTO CLEANUP
 :: Prepare packages for distribution
 :: Archive
 IF NOT DEFINED NO_TAINT (
-  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%"
+  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%-Qt%QT_VER%"
 ) ELSE (
-  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%"
+  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%-Qt%QT_VER%"
 )
 SET "PACKAGE=%PACKAGEDIR%\%QB_STRING%.7z"
 IF EXIST %PACKAGE% DEL /Q %PACKAGE%
 "C:\Program Files\7-Zip\7z.exe" a -t7z %PACKAGE% %INST_DIR% -mx9 -mmt=on -mf=on -mhc=on -ms=on -m0=LZMA2
 IF ERRORLEVEL 1 GOTO FAIL
-:: Optional sign with pgp
-REM IF EXIST %PACKAGE%.sig DEL /Q %PACKAGE%.sig
-REM SET LC_ALL=C
-REM gpg --default-key 0x18792BAA -b %PACKAGE%
 :: Installer (coming soon™); ok, it's here
 ECHO Creating installer...
 ECHO Installer log: %PACKAGEDIR%\%QB_STRING%-x64-setup.log
