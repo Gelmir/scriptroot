@@ -84,7 +84,7 @@ IF NOT DEFINED TAG_RELEASE (
 )
 :: noop
 ECHO.
-XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\qBittorrent %SOURCEROOT%\qbittorrent\
+XCOPY /E /Y /Q /I D:\Users\Nick\Documents\GitHub\qBittorrent %SOURCEROOT%\qbittorrent\
 :: noop
 ECHO.
 IF NOT DEFINED TAG_RELEASE (
@@ -105,7 +105,7 @@ SET CWD=%CD%
 CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 MD %SOURCEROOT%\qbittorrent
-CD /D "C:\Users\Dayman\Documents\GitHub\qBittorrent"
+CD /D "D:\Users\Nick\Documents\GitHub\qBittorrent"
 :: Less manual work
 IF DEFINED TAG_RELEASE (
   SET NO_TAINT=1

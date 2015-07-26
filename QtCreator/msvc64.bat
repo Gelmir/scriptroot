@@ -32,7 +32,7 @@ SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
 MD %SOURCEROOT%\QtCreator
 CD %SOURCEROOT%\QtCreator
-XCOPY /E /Y /Q /I C:\Users\Dayman\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
+XCOPY /E /Y /Q /I D:\Users\Nick\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
 SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
 sed -ie "s/\(imports = \[.Qt.\), .QtWebKit.\(\]\)/\1\2/" .\scripts\deployqt.py
 MD qtcb
