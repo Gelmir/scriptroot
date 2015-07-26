@@ -79,6 +79,8 @@ XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INSTALL_ROOT%\bin\plugins
 FOR %%X IN (icudt55.dll icuin55.dll icuuc55.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
+:: Hack to fix qbs plugin
+XCOPY /Y /Q %INST_DIR%\usr\local\bin\*.dll %INST_DIR%\bin\
 :: Purge .lib files
 FOR /R %INSTALL_ROOT% %%X IN (*.lib) DO DEL /Q %%X
 IF ERRORLEVEL 1 GOTO FAIL
