@@ -26,7 +26,7 @@ GOTO END
 IF EXIST %BUILDROOT%\QtCreator RD /S /Q %BUILDROOT%\QtCreator
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;C:\_\ruby\bin;%PATH%"
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
@@ -55,13 +55,13 @@ RD /S /Q qtcb
 CALL %SCRIPTROOT%\virgin.bat backup
 MD qtcb
 CD qtcb
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\vcvars32.bat"
-SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;C:\_\ruby\bin;%PATH%"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\vcvars32.bat"
+SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;%BUILDROOT%\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%BUILDROOT%\ruby\bin;%PATH%"
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 :: Prepare 32-bit mkspecs
 IF EXIST %SOURCEROOT%\qtbase RD /S /Q %SOURCEROOT%\qtbase
 "C:\Program Files\7-Zip\7z.exe" x -o%SOURCEROOT% %ARCHIVES%\QT-5.5.0.7z qtbase\mkspecs
-SET "QMAKESPEC=%SOURCEROOT%\qtbase\mkspecs\win32-msvc2012"
+SET "QMAKESPEC=%SOURCEROOT%\qtbase\mkspecs\win32-msvc2013"
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off msvc_mp ltcg mmx sse sse2" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
 CD .\src\libs\qtcreatorcdbext

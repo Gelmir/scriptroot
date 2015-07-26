@@ -18,13 +18,13 @@ IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\Zlib RD /S /Q %SOURCEROOT%\Zlib
 MD %SOURCEROOT%\Zlib
 CD %SOURCEROOT%\Zlib
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\zlib-1.2.8.7z
 :: Time to edit Makefiles
-sed -b -e "s/\(^ASFLAGS = \).*\(-Zi \$(LOC)\)/\1\2/" -e "s/\(^AS = \).*/\1ml64/" -e "s/\(^CFLAGS  = \).*\(-Zi.*\$(LOC)\)/\1 -nologo -MDd -Od -W3 -favor\:blend -GR- -Y- -MP -EHs-c- \2/" -e "s/\(^LDFLAGS = \).*/\1-nologo -debug -incremental\:no/" .\win32\Makefile.msc < .\win32\Makefile.msc > .\win32\Makefile.msc.%SEDEXT%
+sed -b -e "s/\(^ASFLAGS = \).*\(-Zi \$(LOC)\)/\1\2/" -e "s/\(^AS = \).*/\1ml64/" -e "s/\(^CFLAGS  = \).*\(-Zi.*\$(LOC)\)/\1 -nologo -MDd -Od -W3 -favor\:blend -GR- -Y- -MP -FS -EHs-c- \2/" -e "s/\(^LDFLAGS = \).*/\1-nologo -debug -incremental\:no/" .\win32\Makefile.msc < .\win32\Makefile.msc > .\win32\Makefile.msc.%SEDEXT%
 MOVE /Y .\win32\Makefile.msc.%SEDEXT% .\win32\Makefile.msc
 SET "PATH=%BUILDROOT%\jom;%PATH%"
 jom -j4 -f .\win32\Makefile.msc AS=ml64 LOC="-DASMV -DASMINF -DDEBUG -I." OBJA="inffasx64.obj gvmat64.obj inffas8664.obj"

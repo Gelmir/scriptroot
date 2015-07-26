@@ -26,20 +26,19 @@ SET "INST_DIR=%BUILDROOT%\OpenSSL\OpenSSL64d"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\OpenSSL RD /S /Q %SOURCEROOT%\OpenSSL
 MD %SOURCEROOT%\OpenSSL
 CD %SOURCEROOT%\OpenSSL
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\OpenSSL-1.0.2d.7z
-SET "CFLAGS=/favor:blend /Od /Y- /MP /MDd /W3"
+SET "CFLAGS=/favor:blend /Od /FS /Y- /MP /MDd /W3 /nologo"
 SET "LDFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console"
 SET "MLFLAGS=/NOLOGO /DEBUG /INCREMENTAL:NO /subsystem:console /DLL"
-SET "PATH=C:\_\NASM;%PATH%"
 perl Configure debug-VC-WIN64A threads shared zlib no-asm enable-md2 -I%BUILDROOT%\Zlib\Zlib64d\include -L%BUILDROOT%\Zlib\Zlib64d\lib --prefix=%INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
 CALL .\ms\do_win64a.bat
 :: MOTHER OF GOD, NOT THIS SHIT AGAIN
-FOR /f "delims=" %%A IN ('findstr "^CFLAG\=" .\ms\ntdll.mak ^| sed -e "s:^CFLAG=::" -e "s:[\/-]O[012xstd] ::g" -e "s:[\/-]favor\:[-A-Z0-9]* ::g" -e "s:[\/-]GL ::g" -e "s:[\/-]Y ::g" -e "s:[\/-]MP ::g" -e "s:[\/-]M[DT][dt]\? ::g" -e "s:[\/-][Ww][0-9al]* ::g" -e "s:[\/-]Z[7Ii] ::g"') DO @SET FLAGS1=%%A
+FOR /f "delims=" %%A IN ('findstr "^CFLAG\=" .\ms\ntdll.mak ^| sed -e "s:^CFLAG=::" -e "s:[\/-]O[012xstd] ::g" -e "s:[\/-]favor\:[-A-Z0-9]* ::g" -e "s:[\/-]GL ::g" -e "s:[\/-]Y ::g" -e "s:[\/-]MP ::g" -e "s:[\/-]M[DT][dt]\? ::g" -e "s:[\/-][Ww][0-9al]* ::g" -e "s:[\/-]Z[7Ii] ::g" -e "s:[\/-]G[SsYy]0\? ::g" -e "s:[\/-]nologo ::g"') DO @SET FLAGS1=%%A
 :: ntdll.mak has CRLF EOL, do not use sed binary mode
 sed -i -e "/^CFLAG/s|=.*|=%CFLAGS% %FLAGS1%|" -e "/^LFLAGS/s|=.*|=%LDFLAGS%|" -e "/^MLFLAGS/s|=.*|= %MLFLAGS%|" -e "/^[[:space:]]\+\$(SHLIB_EX_OBJ) \$(CRYPTOOBJ)  /s|zlib1\.lib \(\$.*\)|zlib\.lib \1|" -e "s/\(^APP_CFLAG= \).*/\1 -Zi/" -e "s/\(^LIB_CFLAG= \).*/\1 -Zi -D_WINDLL/" .\ms\ntdll.mak
 nmake -f .\ms\ntdll.mak

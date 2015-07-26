@@ -19,15 +19,15 @@ SET "INST_DIR=%BUILDROOT%\icu\icu64"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\icu RD /S /Q %SOURCEROOT%\icu
 MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-55.1.7z -o%SOURCEROOT%\icu
 :: HACK
-SET VisualStudioVersion=11.0
+SET VisualStudioVersion=12.0
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
-msbuild.exe /m .\source\allinone\allinone.sln /p:Configuration="Release" /p:Platform="x64" /p:PlatformToolset=v110
+msbuild.exe /m .\source\allinone\allinone.sln /p:Configuration="Release" /p:Platform="x64" /p:PlatformToolset=v120
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=.\bin64;%PATH%"
 CALL .\source\allinone\icucheck.bat x64 Release

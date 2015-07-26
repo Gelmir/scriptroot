@@ -109,6 +109,8 @@ Source: "{#MyFilesRoot}\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion skip
 ; Visual C++ 2012 x64 Redistributable
 Source: "{#MyFilesRoot}\msvcp110.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\msvcr110.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; Gcc runtime
 Source: "{#MyFilesRoot}\libgcc_s_seh-1.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\libssp-0.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
