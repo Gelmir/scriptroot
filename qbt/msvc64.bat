@@ -123,10 +123,12 @@ IF NOT DEFINED TAG_RELEASE (
   FOR /F "delims=" %%X IN ('findstr /R "^VER_STATUS" .\version.pri ^| sed -e "s/^.* = \(.*\) #.*/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!%%X"
 )
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\GeoIP.7z -o.\src\gui\geoip\
-IF NOT DEFINED NO_TAINT (
-  SET QT_VER=5
-) ELSE (
-  SET QT_VER=4
+IF NOT DEFINED QT_VER (
+	IF NOT DEFINED NO_TAINT (
+		SET QT_VER=5
+	) ELSE (
+		SET QT_VER=4
+	)
 )
 :: noop
 ECHO.
@@ -135,14 +137,14 @@ IF %QT_VER% == 5 (
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%PATH%"
   :: Hack for Qt5 lupdate failures
-  sed -i -e "s/^\(\ *QT += dbus\)/#\1/" ./unixconf.pri
+  sed -i -e "s/^\( *QT += dbus\)/#\1/" ./unixconf.pri
 ) ELSE (
   patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
   IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 )
-lupdate -recursive -no-obsolete ./qbittorrent.pro
-IF ERRORLEVEL 1 GOTO FAIL
+REM lupdate -recursive -no-obsolete ./qbittorrent.pro
+REM IF ERRORLEVEL 1 GOTO FAIL
 MD build
 CD build
 IF NOT DEFINED LOG (
