@@ -23,6 +23,9 @@ MD %SOURCEROOT%\Quassel
 CD %SOURCEROOT%\Quassel
 :: /H also copied hidden files (.git)
 XCOPY /E /Y /Q /I /H D:\Users\Nick\Documents\GitHub\Quassel %SOURCEROOT%\Quassel\
+:: Upstream bug http://bugs.quassel-irc.org/issues/1351
+git apply --verbose %SCRIPTROOT%\quassel\patches\0001-Fix-build-with-Qt-5.5.patch
+IF ERRORLEVEL 1 GOTO FAIL
 MD build
 CD build
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;%BUILDROOT%\qca64\bin;%BUILDROOT%\icu\icu64\bin64;%BUILDROOT%\Zlib\Zlib64;%BUILDROOT%\jom;C:\Program Files (x86)\CMake 2.8\bin;%PATH%"
