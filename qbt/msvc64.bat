@@ -147,15 +147,13 @@ IF NOT DEFINED QT_VER (
 )
 :: noop
 ECHO.
+patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
+IF ERRORLEVEL 1 GOTO FAIL
 IF %QT_VER% == 5 (
-  patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64_Qt5.patch
-  IF ERRORLEVEL 1 GOTO FAIL
-  SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%PATH%"
+  SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
   :: Hack for Qt5 lupdate failures
   sed -i -e "s/^\( *QT += dbus\)/#\1/" ./unixconf.pri
 ) ELSE (
-  patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
-  IF ERRORLEVEL 1 GOTO FAIL
   SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 )
 REM lupdate -recursive -no-obsolete ./qbittorrent.pro
@@ -163,10 +161,10 @@ REM IF ERRORLEVEL 1 GOTO FAIL
 MD build
 CD build
 IF NOT DEFINED LOG (
-  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow"
+  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" "INCLUDEPATH += D:/Users/Nick/Programs/Boost/Boost64/include" "INCLUDEPATH += D:/Users/Nick/Programs/libtorrent/libtorrent64/include" "INCLUDEPATH += D:/Users/Nick/Programs/Zlib/Zlib64/include" "INCLUDEPATH += D:/Users/Nick/Programs/OpenSSL/OpenSSL64/include" "LIBS += -LD:/Users/Nick/Programs/Boost/Boost64/lib" "LIBS += -LD:/Users/Nick/Programs/libtorrent/libtorrent64/lib" "LIBS += -LD:/Users/Nick/Programs/Zlib/Zlib64/lib" "LIBS += -LD:/Users/Nick/Programs/OpenSSL/OpenSSL64/lib"
   IF ERRORLEVEL 1 GOTO FAIL
 ) ELSE (
-  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING"
+  qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING" "INCLUDEPATH += D:/Users/Nick/Programs/Boost/Boost64/include" "INCLUDEPATH += D:/Users/Nick/Programs/libtorrent/libtorrent64/include" "INCLUDEPATH += D:/Users/Nick/Programs/Zlib/Zlib64/include" "INCLUDEPATH += D:/Users/Nick/Programs/OpenSSL/OpenSSL64/include" "LIBS += -LD:/Users/Nick/Programs/Boost/Boost64/lib" "LIBS += -LD:/Users/Nick/Programs/libtorrent/libtorrent64/lib" "LIBS += -LD:/Users/Nick/Programs/Zlib/Zlib64/lib" "LIBS += -LD:/Users/Nick/Programs/OpenSSL/OpenSSL64/lib"
   IF ERRORLEVEL 1 GOTO FAIL
 )
 jom -j4
