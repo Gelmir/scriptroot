@@ -70,8 +70,6 @@ jom -j4
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install
 IF ERRORLEVEL 1 GOTO FAIL
-:: Ship Qt documentation with QtCreator
-COPY /Y %BUILDROOT%\Qt\Qt5_x64_full\doc\*.qch %INSTALL_ROOT%\share\doc\
 :: Copy SSL libs
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INSTALL_ROOT%\bin\
 :: Copy whatever 'nmake bindist' forgot to copy
