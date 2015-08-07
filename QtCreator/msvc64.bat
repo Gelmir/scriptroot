@@ -1,28 +1,46 @@
 @ECHO OFF
 GOTO BEGIN
 :CLEANUP
+IF %SIDE_BUILD% == 1 (
+	IF EXIST %INSTALL_ROOT% RD /S /Q %INSTALL_ROOT%
+)
 CD %CWD%
-SET DISABLE_PLUGINS=
 SET INSTALL_ROOT=
 SET QMAKESPEC=
 SET CDB_PATH=
-REM IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
+SET SIDE_BUILD=
+SET QTC_VERSION=
+SET GIT_TAG=
+IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
 IF EXIST %SOURCEROOT%\qtbase RD /S /Q %SOURCEROOT%\qtbase
 GOTO END
 :FAIL
 ECHO Building failed, leaving source tree as is and dumping custom env vars
 CD %CWD%
-IF DEFINED DISABLE_PLUGINS ECHO DISABLE_PLUGINS = %DISABLE_PLUGINS%
 IF DEFINED INSTALL_ROOT ECHO INSTALL_ROOT = %INSTALL_ROOT%
 IF DEFINED QMAKESPEC ECHO QMAKESPEC = %QMAKESPEC%
 IF DEFINED CDB_PATH ECHO CDB_PATH = %CDB_PATH%
-SET DISABLE_PLUGINS=
+IF DEFINED SIDE_BUILD ECHO SIDE_BUILD = %SIDE_BUILD%
+IF DEFINED QTC_VERSION ECHO QTC_VERSION = %QTC_VERSION%
+IF DEFINED GIT_TAG ECHO GIT_TAG = %GIT_TAG%
 SET INSTALL_ROOT=
 SET QMAKESPEC=
 SET CDB_PATH=
+SET SIDE_BUILD=
+SET QTC_VERSION=
+SET GIT_TAG=
 GOTO END
 :BEGIN
+Setlocal EnableDelayedExpansion
+IF NOT DEFINED SIDE_BUILD (
+	SET SIDE_BUILD=0
+)
+IF %SIDE_BUILD% == 1 (
+	SET "INSTALL_ROOT=%TEMP%\QtCreator64"
+) ELSE (
+	SET "INSTALL_ROOT=%BUILDROOT%\QtCreator64"
+)
 IF EXIST %BUILDROOT%\QtCreator RD /S /Q %BUILDROOT%\QtCreator
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
@@ -32,9 +50,10 @@ SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
 MD %SOURCEROOT%\QtCreator
 CD %SOURCEROOT%\QtCreator
-XCOPY /E /Y /Q /I D:\Users\Nick\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
-SET "INSTALL_ROOT=%BUILDROOT%\QtCreator"
+XCOPY /E /Y /Q /I /H D:\Users\Nick\Documents\GitHub\QtCreator %SOURCEROOT%\QtCreator\
 sed -ie "s/\(imports = \[.Qt.\), .QtWebKit.\(\]\)/\1\2/" .\scripts\deployqt.py
+FOR /F "delims=" %%X IN ('findstr /R "^QTCREATOR_VERSION" .\qtcreator.pri ^| sed -e "s/^.* = \(.*\)/\1/"') DO @SET QTC_VERSION=%%X
+FOR /F "delims=" %%X IN ('git describe --long') DO @SET GIT_TAG=%%X
 MD qtcb
 CD qtcb
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off mmx sse sse2 ltcg" "CONFIG -= 3dnow"
@@ -78,10 +97,19 @@ FOR %%X IN (icudt55.dll icuin55.dll icuuc55.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
 :: Hack to fix qbs plugin
-XCOPY /Y /Q %INST_DIR%\usr\local\bin\*.dll %INST_DIR%\bin\
+XCOPY /Y /Q %INSTALL_ROOT%\usr\local\bin\*.dll %INSTALL_ROOT%\bin\
+COPY /Y %SOURCEROOT%\QtCreator\LICENSE.LGPLv3 %INSTALL_ROOT%\LICENSE.txt
+unix2dos -ascii %INSTALL_ROOT%\LICENSE.txt
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcp120.dll" %INSTALL_ROOT%\bin\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcr120.dll" %INSTALL_ROOT%\bin\
 :: Purge .lib files
 FOR /R %INSTALL_ROOT% %%X IN (*.lib) DO DEL /Q %%X
 IF ERRORLEVEL 1 GOTO FAIL
+SET "QTC_STRING=QtCreator-%QTC_VERSION%_%GIT_TAG%"
+ECHO Creating installer...
+ECHO Installer log: %PACKAGEDIR%\%QTC_STRING%-x64-setup.log
+IF EXIST "%PACKAGEDIR%\%QTC_STRING%-x64-setup.exe" DEL /Q "%PACKAGEDIR%\%QTC_STRING%-x64-setup.exe"
+"C:\Program Files (x86)\Inno Setup 5\ISCC.exe" "/dMyFilesRoot=%INSTALL_ROOT%" "/dPACKDIR=%PACKAGEDIR%" "/dMyAppVersion=%QTC_VERSION%" "/dMyIcon=%SOURCEROOT%\QtCreator\src\app\qtcreator.ico" "/f%QTC_STRING%-x64-setup" "/o%PACKAGEDIR%" "%SCRIPTROOT%\QtCreator\qtc64.iss" > %PACKAGEDIR%\%QTC_STRING%-x64-setup.log
 GOTO CLEANUP
 :END
 CALL %SCRIPTROOT%\virgin.bat restore
