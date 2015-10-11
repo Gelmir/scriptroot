@@ -151,13 +151,17 @@ patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
 IF ERRORLEVEL 1 GOTO FAIL
 IF %QT_VER% == 5 (
   SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
-  :: Hack for Qt5 lupdate failures
-  sed -i -e "s/^\( *QT += dbus\)/#\1/" ./unixconf.pri
+  SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc2013"
+  COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 ) ELSE (
   SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
+  SET "QMAKESPEC=%BUILDROOT%\Qt\Qt4_x64_qbt\mkspecs\win32-msvc2013"
+  COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 )
-REM lupdate -recursive -no-obsolete ./qbittorrent.pro
-REM IF ERRORLEVEL 1 GOTO FAIL
+%SOURCEROOT%\qbittorrent\lupdate.exe -recursive -no-obsolete ./qbittorrent.pro
+IF ERRORLEVEL 1 GOTO FAIL
+DEL /Q %SOURCEROOT%\qbittorrent\lupdate.exe
+SET "QMAKESPEC="
 MD build
 CD build
 IF NOT DEFINED LOG (
