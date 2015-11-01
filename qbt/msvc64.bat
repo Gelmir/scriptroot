@@ -70,7 +70,7 @@ GOTO END
 :GIT_CMDS
 :: Use release tag?
 IF DEFINED TAG_RELEASE (
-  git checkout --merge "%TAG_RELEASE%"
+  git checkout --merge %TAG_RELEASE%
   IF ERRORLEVEL 1 GOTO FAIL
   ECHO.
 ) ELSE (
