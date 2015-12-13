@@ -24,7 +24,7 @@ CD %SOURCEROOT%\Boost
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.55.7z -o%SOURCEROOT%\Boost
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 @ECHO OFF
-bjam -j4 -q --with-system --with-date_time --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=debug debug-symbols=on threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /FS /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" install
+bjam -j8 -q --with-system --with-date_time --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=debug debug-symbols=on threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /FS /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" install
 IF ERRORLEVEL 1 GOTO FAIL
 :: Copy debug symbols
 FOR /R .\ %%X IN (boost_*.pdb) DO (

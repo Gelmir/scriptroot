@@ -171,7 +171,7 @@ IF NOT DEFINED LOG (
   qmake -config release -r ../qbittorrent.pro "CONFIG += strace_win warn_off rtti ltcg mmx sse sse2" "CONFIG -= 3dnow" "DEFINES += TORRENT_DISK_STATS TORRENT_LOGGING" "INCLUDEPATH += D:/Users/Nick/Programs/Boost/Boost64/include" "INCLUDEPATH += D:/Users/Nick/Programs/libtorrent/libtorrent64/include" "INCLUDEPATH += D:/Users/Nick/Programs/Zlib/Zlib64/include" "INCLUDEPATH += D:/Users/Nick/Programs/OpenSSL/OpenSSL64/include" "LIBS += -LD:/Users/Nick/Programs/Boost/Boost64/lib" "LIBS += -LD:/Users/Nick/Programs/libtorrent/libtorrent64/lib" "LIBS += -LD:/Users/Nick/Programs/Zlib/Zlib64/lib" "LIBS += -LD:/Users/Nick/Programs/OpenSSL/OpenSSL64/lib"
   IF ERRORLEVEL 1 GOTO FAIL
 )
-jom -j4
+jom -j8
 IF ERRORLEVEL 1 GOTO FAIL
 COPY /Y .\src\release\qbittorrent.exe %INST_DIR%\
 IF EXIST .\src\release\qbittorrent.pdb COPY /Y .\src\release\qbittorrent.pdb %INST_DIR%\

@@ -58,7 +58,7 @@ MD qtcb
 CD qtcb
 qmake -config release -r ../qtcreator.pro "CONFIG += warn_off mmx sse sse2 ltcg" "CONFIG -= 3dnow"
 IF ERRORLEVEL 1 GOTO FAIL
-jom -j4
+jom -j8
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 docs
 IF ERRORLEVEL 1 GOTO FAIL
@@ -85,7 +85,7 @@ qmake -config release -r ../qtcreator.pro "CONFIG += warn_off msvc_mp ltcg mmx s
 IF ERRORLEVEL 1 GOTO FAIL
 CD .\src\libs\qtcreatorcdbext
 :: Only building i686 cdb helper
-jom -j4
+jom -j8
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install
 IF ERRORLEVEL 1 GOTO FAIL

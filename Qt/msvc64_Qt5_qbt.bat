@@ -27,7 +27,7 @@ IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\jom;%PATH%"
 CALL configure.bat -release -shared -opensource -confirm-license -platform win32-msvc2013 -ltcg -no-accessibility -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -no-opengl -no-angle -no-openvg -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-audio-backend -no-wmf-backend -no-qml-debug -no-style-windowsmobile -no-style-windowsce -qt-style-fusion -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -directwrite -qmake -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR%
 IF ERRORLEVEL 1 GOTO FAIL
-jom -j4
+jom -j8
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j1 install
 IF ERRORLEVEL 1 GOTO FAIL
