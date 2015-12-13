@@ -93,7 +93,7 @@ IF ERRORLEVEL 1 GOTO FAIL
 XCOPY /Y /Q %BUILDROOT%\OpenSSL\OpenSSL64\bin\*.dll %INSTALL_ROOT%\bin\
 :: Copy whatever 'nmake bindist' forgot to copy
 XCOPY /E /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_full\plugins %INSTALL_ROOT%\bin\plugins\
-FOR %%X IN (icudt55.dll icuin55.dll icuuc55.dll) DO (
+FOR %%X IN (icudt56.dll icuin56.dll icuuc56.dll) DO (
   XCOPY /E /Y /Q /I %BUILDROOT%\icu\icu64\bin64\%%X %INSTALL_ROOT%\bin
 )
 :: Hack to fix qbs plugin
