@@ -18,23 +18,30 @@ diff -ruN qBittorrent_orig/winconf-msvc.pri qBittorrent/winconf-msvc.pri
  
  LIBS += advapi32.lib shell32.lib crypt32.lib User32.lib
 diff -ruN qBittorrent_orig/winconf.pri qBittorrent/winconf.pri
---- qBittorrent_orig/winconf.pri	2015-08-02 19:19:24.727543600 +0300
-+++ qBittorrent/winconf.pri	2015-08-02 19:25:20.670431700 +0300
-@@ -20,17 +20,19 @@
- 
- # LIBTORRENT DEFINES
+--- qBittorrent_orig/winconf.pri	2016-01-23 19:20:09.941578900 +0300
++++ qBittorrent/winconf.pri	2016-01-24 15:20:41.125003900 +0300
+@@ -22,14 +22,18 @@
  DEFINES += BOOST_ALL_NO_LIB
-+DEFINES += BOOST_ASIO_ENABLE_CANCELIO
  DEFINES += BOOST_ASIO_HASH_MAP_BUCKETS=1021
--DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
-+DEFINES += BOOST_ASIO_DYN_LINK
-+DEFINES += BOOST_ALL_DYN_LINK
+ DEFINES += BOOST_ASIO_SEPARATE_COMPILATION
++DEFINES += BOOST_ASIO_ENABLE_CANCELIO
+ # After 1.55 some Windows users reported regular UI freezes.
+ # This makes ASIO use the pre-1.56 way of doing things. See issue #2003
+ DEFINES += BOOST_ASIO_DISABLE_CONNECTEX
+ # Boost 1.60+ defaults to Vista+ support. The define below enables XP support again.
+-DEFINES += BOOST_USE_WINAPI_VERSION=0x0501
++# x64 targets vista anyway, commenting out
++# DEFINES += BOOST_USE_WINAPI_VERSION=0x0501
  DEFINES += BOOST_EXCEPTION_DISABLE
 -DEFINES += BOOST_SYSTEM_STATIC_LINK=1
++DEFINES += BOOST_ASIO_DYN_LINK
++DEFINES += BOOST_ALL_DYN_LINK
  DEFINES += TORRENT_USE_OPENSSL
 +DEFINES += TORRENT_LINKING_SHARED
+ DEFINES += TORRENT_DISABLE_GEO_IP
+ DEFINES += TORRENT_DISABLE_RESOLVE_COUNTRIES
  DEFINES += UNICODE
- DEFINES += _UNICODE
+@@ -37,7 +41,7 @@
  DEFINES += WIN32
  DEFINES += _WIN32
  DEFINES += WIN32_LEAN_AND_MEAN
