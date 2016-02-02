@@ -44,7 +44,7 @@ IF %SIDE_BUILD% == 1 (
 IF EXIST %BUILDROOT%\QtCreator RD /S /Q %BUILDROOT%\QtCreator
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;C:\_\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;C:\_\ruby\bin;%PATH%"
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 IF EXIST %SOURCEROOT%\QtCreator RD /S /Q %SOURCEROOT%\QtCreator
@@ -74,7 +74,7 @@ RD /S /Q qtcb
 CALL %SCRIPTROOT%\virgin.bat backup
 MD qtcb
 CD qtcb
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\vcvars32.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\vcvars32.bat"
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_full\bin;%BUILDROOT%\Python27;C:\Program Files\7-Zip;%BUILDROOT%\jom;%BUILDROOT%\icu\icu64\bin64;%BUILDROOT%\ruby\bin;%PATH%"
 SET "CDB_PATH=C:\Program Files (x86)\Windows Kits\8.1\Debuggers"
 :: Prepare 32-bit mkspecs
@@ -100,8 +100,10 @@ FOR %%X IN (icudt56.dll icuin56.dll icuuc56.dll) DO (
 XCOPY /Y /Q %INSTALL_ROOT%\usr\local\bin\*.dll %INSTALL_ROOT%\bin\
 COPY /Y %SOURCEROOT%\QtCreator\LICENSE.LGPLv3 %INSTALL_ROOT%\LICENSE.txt
 unix2dos -ascii %INSTALL_ROOT%\LICENSE.txt
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcp120.dll" %INSTALL_ROOT%\bin\
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcr120.dll" %INSTALL_ROOT%\bin\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\msvcp140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\concrt140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vccorlib140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vcruntime140.dll" %INST_DIR%\
 :: Purge .lib files
 FOR /R %INSTALL_ROOT% %%X IN (*.lib) DO DEL /Q %%X
 IF ERRORLEVEL 1 GOTO FAIL

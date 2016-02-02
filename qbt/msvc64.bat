@@ -117,7 +117,7 @@ IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 MD %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 MD %SOURCEROOT%\qbittorrent
 CD /D "D:\Users\Nick\Documents\GitHub\qBittorrent"
@@ -221,9 +221,11 @@ COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_system.dll %INST_DIR%\
 :: LT 1.0.4 and higher needs date_time
 COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_date_time.dll %INST_DIR%\
 :: Copy VC++ 2012 x64 Redist DLLs
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcp120.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC120.CRT\msvcr120.dll" %INST_DIR%\
-COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x86\dbghelp.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\msvcp140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\concrt140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vccorlib140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vcruntime140.dll" %INST_DIR%\
+COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x64\dbghelp.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
 unix2dos -ascii %INST_DIR%\LICENSE.txt
