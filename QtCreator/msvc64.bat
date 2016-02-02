@@ -100,10 +100,10 @@ FOR %%X IN (icudt56.dll icuin56.dll icuuc56.dll) DO (
 XCOPY /Y /Q %INSTALL_ROOT%\usr\local\bin\*.dll %INSTALL_ROOT%\bin\
 COPY /Y %SOURCEROOT%\QtCreator\LICENSE.LGPLv3 %INSTALL_ROOT%\LICENSE.txt
 unix2dos -ascii %INSTALL_ROOT%\LICENSE.txt
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\msvcp140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\concrt140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vccorlib140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vcruntime140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\msvcp140.dll" %INSTALL_ROOT%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\concrt140.dll" %INSTALL_ROOT%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vccorlib140.dll" %INSTALL_ROOT%\
+COPY /Y "%VCINSTALLDIR%\redist\x64\Microsoft.VC140.CRT\vcruntime140.dll" %INSTALL_ROOT%\
 :: Purge .lib files
 FOR /R %INSTALL_ROOT% %%X IN (*.lib) DO DEL /Q %%X
 IF ERRORLEVEL 1 GOTO FAIL
