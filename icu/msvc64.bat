@@ -24,6 +24,8 @@ IF EXIST %SOURCEROOT%\icu RD /S /Q %SOURCEROOT%\icu
 MD %SOURCEROOT%\icu
 CD %SOURCEROOT%\icu
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\icu-56.1.7z -o%SOURCEROOT%\icu
+git apply -p5 %SCRIPTROOT%\icu\patches\icu-vc14.patch
+IF ERRORLEVEL 1 GOTO FAIL
 :: HACK
 SET VisualStudioVersion=14.0
 :: Would like to edit CFLAGS and LFLAGS, but it really painful
