@@ -83,6 +83,8 @@ Source: "{#MyFilesRoot}\{#MyAppPdbName}"; DestDir: "{app}"; Flags: ignoreversion
 ; Boost
 Source: "{#MyFilesRoot}\boost_system.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\boost_date_time.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\boost_chrono.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
+Source: "{#MyFilesRoot}\boost_random.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\libboost_system.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "{#MyFilesRoot}\libboost_date_time.dll"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 ; OpenSSL
