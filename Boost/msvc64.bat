@@ -31,7 +31,7 @@ IF ERRORLEVEL 1 GOTO FAIL
 CD ..\..\
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 @ECHO OFF
-bjam -j8 -q --with-system --with-chrono --with-random --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=release debug-symbols=off threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" install
+bjam -j8 -q --with-system --with-chrono --with-random --with-date_time --toolset=msvc --layout=system --prefix=%INST_DIR% link=shared runtime-link=shared variant=release debug-symbols=off threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" install
 IF ERRORLEVEL 1 GOTO FAIL
 XCOPY /Y /Q %SOURCEROOT%\Boost\*.jam %INST_DIR%\
 COPY /Y %SOURCEROOT%\Boost\Jamroot %INST_DIR%\
