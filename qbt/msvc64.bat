@@ -26,6 +26,11 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET SIDE_BUILD=
+IF %USE_LT11% == 0 (
+	MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_0
+    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_1 %BUILDROOT%\libtorrent\libtorrent64
+)
+SET USE_LT11=
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 GOTO END
 :FAIL
@@ -50,6 +55,7 @@ IF DEFINED TAG_RELEASE (
 IF DEFINED NO_PUBLIC ECHO NO_PUBLIC = %NO_PUBLIC%
 IF DEFINED LOG ECHO LOG = %LOG%
 IF DEFINED SIDE_BUILD ECHO SIDE_BUILD = %SIDE_BUILD%
+IF DEFINED USE_LT11 ECHO USE_LT11 = %USE_LT11%
 SET LC_ALL=
 SET PACKAGE=
 SET INST_DIR=
@@ -61,6 +67,11 @@ SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
 SET SIDE_BUILD=
+IF %USE_LT11% == 0 (
+	MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_0
+    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_1 %BUILDROOT%\libtorrent\libtorrent64
+)
+SET USE_LT11=
 GOTO END
 :: Control git branhes
 :GIT_CMDS
@@ -135,8 +146,30 @@ IF NOT DEFINED TAG_RELEASE (
 )
 "C:\Program Files\7-Zip\7z.exe" -y x %ARCHIVES%\GeoIP.7z -o.\src\gui\geoip\
 IF ERRORLEVEL 1 GOTO FAIL
-patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
-IF ERRORLEVEL 1 GOTO FAIL
+IF NOT DEFINED USE_LT11 (
+    SET USE_LT11=0
+)
+:: NOOP
+ECHO.
+IF %USE_LT11% == 1 (
+    SET "LT_STRING=libtorrent1.1"
+) ELSE (
+    SET "LT_STRING=libtorrent1.0"
+)
+:: NOOP
+ECHO.
+IF %USE_LT11% == 1 (
+    patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
+    IF ERRORLEVEL 1 GOTO FAIL
+) ELSE (
+    patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64_lt_1.0.x.patch
+    IF ERRORLEVEL 1 GOTO FAIL
+    :: Move libtorrent
+    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64 %BUILDROOT%\libtorrent\libtorrent64_1
+    MOVE /Y %BUILDROOT%\libtorrent\libtorrent64_0 %BUILDROOT%\libtorrent\libtorrent64
+)
+:: NOOP
+ECHO.
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
 SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc2013"
 COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
@@ -200,9 +233,9 @@ IF DEFINED NO_PUBLIC GOTO CLEANUP
 :: Prepare packages for distribution
 :: Archive
 IF NOT DEFINED NO_TAINT (
-  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%
+  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%-%LT_STRING%
 ) ELSE (
-  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%
+  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%-%LT_STRING%
 )
 SET "PACKAGE=%PACKAGEDIR%\%QB_STRING%.7z"
 IF EXIST %PACKAGE% DEL /Q %PACKAGE%
