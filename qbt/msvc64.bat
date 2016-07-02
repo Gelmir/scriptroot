@@ -4,7 +4,6 @@
 :: SET "NO_TAINT=1" - if defined experimental branch will bot be used
 :: SET "TAG_RELEASE=release-3.0.8" - if defined build the defined release tag instead of master branch
 :: SET "NO_PUBLIC=1" - do not make archive and do not build installer
-:: SET "QT_VER=[5|4]" - choose between qt version
 :: SET "SIDE_BUILD=1" - uses a different path for the build
 
 :: TODO
@@ -26,7 +25,6 @@ SET GIT_TAG=
 SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
-SET QT_VER=
 SET SIDE_BUILD=
 IF EXIST %SOURCEROOT%\qbittorrent RD /S /Q %SOURCEROOT%\qbittorrent
 GOTO END
@@ -39,7 +37,6 @@ IF DEFINED INST_DIR ECHO INST_DIR = %INST_DIR%
 IF DEFINED QBT_VERSION ECHO QBT_VERSION = %QBT_VERSION%
 IF DEFINED QB_STRING ECHO QB_STRING = %QB_STRING%
 IF DEFINED GIT_TAG ECHO GIT_TAG = %GIT_TAG%
-IF DEFINED QT_VER ECHO QT_VER = %QT_VER%
 IF DEFINED NO_TAINT (
   ECHO Build was not tainted
 ) ELSE (
@@ -63,7 +60,6 @@ SET GIT_TAG=
 SET QB_STRING=
 SET NO_PUBLIC=
 SET LOG=
-SET QT_VER=
 SET SIDE_BUILD=
 GOTO END
 :: Control git branhes
@@ -138,26 +134,12 @@ IF NOT DEFINED TAG_RELEASE (
   FOR /F "delims=" %%X IN ('findstr /R "^VER_STATUS" .\version.pri ^| sed -e "s/^.* = \(.*\) #.*/\1/"') DO @SET "QBT_VERSION=!QBT_VERSION!%%X"
 )
 "C:\Program Files\7-Zip\7z.exe" -y x %ARCHIVES%\GeoIP.7z -o.\src\gui\geoip\
-IF NOT DEFINED QT_VER (
-	IF NOT DEFINED NO_TAINT (
-		SET QT_VER=5
-	) ELSE (
-		SET QT_VER=4
-	)
-)
-:: noop
-ECHO.
+IF ERRORLEVEL 1 GOTO FAIL
 patch -p1 -Nfi %SCRIPTROOT%\qbt\patches\msvc64.patch
 IF ERRORLEVEL 1 GOTO FAIL
-IF %QT_VER% == 5 (
-  SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
-  SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc2013"
-  COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
-) ELSE (
-  SET "PATH=%BUILDROOT%\Qt\Qt4_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
-  SET "QMAKESPEC=%BUILDROOT%\Qt\Qt4_x64_qbt\mkspecs\win32-msvc2013"
-  COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
-)
+SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
+SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc2013"
+COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 %SOURCEROOT%\qbittorrent\lupdate.exe -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
 DEL /Q %SOURCEROOT%\qbittorrent\lupdate.exe
@@ -176,41 +158,25 @@ IF ERRORLEVEL 1 GOTO FAIL
 COPY /Y .\src\release\qbittorrent.exe %INST_DIR%\
 IF EXIST .\src\release\qbittorrent.pdb COPY /Y .\src\release\qbittorrent.pdb %INST_DIR%\
 
-
-IF %QT_VER% == 5 (
-  FOR %%X IN (Qt5Core.dll Qt5Gui.dll Qt5Network.dll Qt5Widgets.dll Qt5Xml.dll) DO (
-    COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\%%X %INST_DIR%\
-  )
-  :: Only qico4.dll is required
-  XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_qbt\plugins\imageformats\qico.dll %INST_DIR%\plugins\imageformats\
-  :: Not sure if needed
-  XCOPY /Y /Q /I /E %BUILDROOT%\Qt\Qt5_x64_qbt\plugins\platforms %INST_DIR%\plugins\platforms
-  :: Use newer Qt translations if possible
-  :: Now I HAVE to use perl for non-greedy regex :(
-  FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\dist\qt-translations\" ^| perl -pe "s/^.*?_(.*)/\1/"`) DO (
-    IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
-    )
-    IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" (
-      COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
-    )
-  )
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qt_* %INST_DIR%\translations\
-  XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qtbase_* %INST_DIR%\translations\
-) ELSE (
-  FOR %%X IN (QtCore4.dll QtGui4.dll QtNetwork4.dll QtXml4.dll) DO (
-    COPY /Y %BUILDROOT%\Qt\Qt4_x64_qbt\bin\%%X %INST_DIR%\
-  )
-  :: Only qico4.dll is required
-  XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt4_x64_qbt\plugins\imageformats\qico4.dll %INST_DIR%\plugins\imageformats\
-  :: Use newer Qt translations if possible
-	FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\dist\qt-translations\"`) DO (
-		IF EXIST "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" (
-			COPY /Y "%BUILDROOT%\Qt\Qt4_x64_qbt\translations\%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
-		)
-	)
-	XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qt_* %INST_DIR%\translations\
+FOR %%X IN (Qt5Core.dll Qt5Gui.dll Qt5Network.dll Qt5Widgets.dll Qt5Xml.dll) DO (
+  COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\%%X %INST_DIR%\
 )
+:: Only qico4.dll is required
+XCOPY /Y /Q /I %BUILDROOT%\Qt\Qt5_x64_qbt\plugins\imageformats\qico.dll %INST_DIR%\plugins\imageformats\
+:: Not sure if needed
+XCOPY /Y /Q /I /E %BUILDROOT%\Qt\Qt5_x64_qbt\plugins\platforms %INST_DIR%\plugins\platforms
+:: Use newer Qt translations if possible
+:: Now I HAVE to use perl for non-greedy regex :(
+FOR /F "usebackq" %%X IN (`DIR /B "%SOURCEROOT%\qbittorrent\dist\qt-translations\" ^| perl -pe "s/^.*?_(.*)/\1/"`) DO (
+  IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" (
+    COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qt_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
+  )
+  IF EXIST "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" (
+    COPY /Y "%BUILDROOT%\Qt\Qt5_x64_qbt\translations\qtbase_%%X" "%SOURCEROOT%\qbittorrent\dist\qt-translations\"
+  )
+)
+XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qt_* %INST_DIR%\translations\
+XCOPY /Y /Q /I %SOURCEROOT%\qbittorrent\dist\qt-translations\qtbase_* %INST_DIR%\translations\
 
 echo [Paths] > %INST_DIR%\qt.conf
 echo Translations = ./translations >> %INST_DIR%\qt.conf
@@ -234,9 +200,9 @@ IF DEFINED NO_PUBLIC GOTO CLEANUP
 :: Prepare packages for distribution
 :: Archive
 IF NOT DEFINED NO_TAINT (
-  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%-Qt%QT_VER%"
+  SET "QB_STRING=qBittorrent-experimental-%QBT_VERSION%-%GIT_TAG%
 ) ELSE (
-  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%-Qt%QT_VER%"
+  SET "QB_STRING=qBittorrent-%QBT_VERSION%-%GIT_TAG%
 )
 SET "PACKAGE=%PACKAGEDIR%\%QB_STRING%.7z"
 IF EXIST %PACKAGE% DEL /Q %PACKAGE%
