@@ -176,6 +176,8 @@ COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 %SOURCEROOT%\qbittorrent\lupdate.exe -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
 DEL /Q %SOURCEROOT%\qbittorrent\lupdate.exe
+git apply %SCRIPTROOT%\qbt\patches\0001-Revert-Use-new-libtorrent-1.1.2-utility-function-to-.patch
+IF ERRORLEVEL 1 GOTO FAIL
 SET "QMAKESPEC="
 MD build
 CD build
