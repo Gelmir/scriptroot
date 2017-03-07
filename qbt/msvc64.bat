@@ -176,6 +176,9 @@ COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 %SOURCEROOT%\qbittorrent\lupdate.exe -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
 DEL /Q %SOURCEROOT%\qbittorrent\lupdate.exe
+:: Revert icon commit from 3.3.x branch 
+git apply -R %SCRIPTROOT%\qbt\patches\9999-Edit-speed-limits-and-upload-ratio-icons.patch
+IF ERRORLEVEL 1 GOTO FAIL
 IF ERRORLEVEL 1 GOTO FAIL
 SET "QMAKESPEC="
 MD build

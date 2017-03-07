@@ -1,0 +1,176 @@
+From eaf6e4739144a6eca411e16c984de8ee2509a1ef Mon Sep 17 00:00:00 2001
+From: buinsky <vix_booja@tut.by>
+Date: Sun, 10 Jan 2016 15:30:34 +0300
+Subject: [PATCH] Edit speed limits and upload ratio icons
+
+---
+ AUTHORS                          |   5 +++++
+ src/gui/mainwindow.cpp           |   8 ++++----
+ src/gui/transferlistwidget.cpp   |   6 +++---
+ src/icons.qrc                    |   2 ++
+ src/icons/skin/downloadLimit.png | Bin 0 -> 435 bytes
+ src/icons/skin/ratio.png         | Bin 370 -> 760 bytes
+ src/icons/skin/uploadLimit.png   | Bin 0 -> 406 bytes
+ src/webui/www/private/index.html |   4 ++--
+ 8 files changed, 16 insertions(+), 9 deletions(-)
+ create mode 100644 src/icons/skin/downloadLimit.png
+ rewrite src/icons/skin/ratio.png (97%)
+ create mode 100644 src/icons/skin/uploadLimit.png
+
+diff --git a/AUTHORS b/AUTHORS
+index e93cb50..22b9bbe 100644
+--- a/AUTHORS
++++ b/AUTHORS
+@@ -79,6 +79,11 @@ Images Authors:
+ 
+ * file: src/icons/oxygen/checked.png
+   copyright: Victor Buinsky <allok.victor@gmail.com>
++  
++* file: src/icons/skin/ratio.png
++  copyright: Fatcow Web Hosting
++  license: Creative Commons Attribution 3.0 License
++  url: http://www.fatcow.com/free-icons
+ 
+ Translations authors:
+ * files: src/lang/*.ts
+diff --git a/src/gui/mainwindow.cpp b/src/gui/mainwindow.cpp
+index c38d4ee..8dee0e3 100644
+--- a/src/gui/mainwindow.cpp
++++ b/src/gui/mainwindow.cpp
+@@ -153,10 +153,10 @@ MainWindow::MainWindow(QWidget *parent)
+ 
+     m_ui->actionOpen->setIcon(GuiIconProvider::instance()->getIcon("list-add"));
+     m_ui->actionDownloadFromURL->setIcon(GuiIconProvider::instance()->getIcon("insert-link"));
+-    m_ui->actionSetUploadLimit->setIcon(QIcon(":/icons/skin/seeding.png"));
+-    m_ui->actionSetDownloadLimit->setIcon(QIcon(":/icons/skin/download.png"));
+-    m_ui->actionSetGlobalUploadLimit->setIcon(QIcon(":/icons/skin/seeding.png"));
+-    m_ui->actionSetGlobalDownloadLimit->setIcon(QIcon(":/icons/skin/download.png"));
++    m_ui->actionSetUploadLimit->setIcon(QIcon(":/icons/skin/uploadLimit.png"));
++    m_ui->actionSetDownloadLimit->setIcon(QIcon(":/icons/skin/downloadLimit.png"));
++    m_ui->actionSetGlobalUploadLimit->setIcon(QIcon(":/icons/skin/uploadLimit.png"));
++    m_ui->actionSetGlobalDownloadLimit->setIcon(QIcon(":/icons/skin/downloadLimit.png"));
+     m_ui->actionCreateTorrent->setIcon(GuiIconProvider::instance()->getIcon("document-edit"));
+     m_ui->actionAbout->setIcon(GuiIconProvider::instance()->getIcon("help-about"));
+     m_ui->actionStatistics->setIcon(GuiIconProvider::instance()->getIcon("view-statistics"));
+diff --git a/src/gui/transferlistwidget.cpp b/src/gui/transferlistwidget.cpp
+index 87508d7..2e4cb03 100644
+--- a/src/gui/transferlistwidget.cpp
++++ b/src/gui/transferlistwidget.cpp
+@@ -638,9 +638,9 @@ void TransferListWidget::displayListMenu(const QPoint&)
+     connect(&actionPreview_file, SIGNAL(triggered()), this, SLOT(previewSelectedTorrents()));
+     QAction actionSet_max_ratio(QIcon(QString::fromUtf8(":/icons/skin/ratio.png")), tr("Limit share ratio..."), 0);
+     connect(&actionSet_max_ratio, SIGNAL(triggered()), this, SLOT(setMaxRatioSelectedTorrents()));
+-    QAction actionSet_upload_limit(QIcon(QString::fromUtf8(":/icons/skin/seeding.png")), tr("Limit upload rate..."), 0);
++    QAction actionSet_upload_limit(QIcon(QString::fromUtf8(":/icons/skin/uploadLimit.png")), tr("Limit upload rate..."), 0);
+     connect(&actionSet_upload_limit, SIGNAL(triggered()), this, SLOT(setUpLimitSelectedTorrents()));
+-    QAction actionSet_download_limit(QIcon(QString::fromUtf8(":/icons/skin/download.png")), tr("Limit download rate..."), 0);
++    QAction actionSet_download_limit(QIcon(QString::fromUtf8(":/icons/skin/downloadLimit.png")), tr("Limit download rate..."), 0);
+     connect(&actionSet_download_limit, SIGNAL(triggered()), this, SLOT(setDlLimitSelectedTorrents()));
+     QAction actionOpen_destination_folder(GuiIconProvider::instance()->getIcon("inode-directory"), tr("Open destination folder"), 0);
+     connect(&actionOpen_destination_folder, SIGNAL(triggered()), this, SLOT(openSelectedTorrentsFolder()));
+@@ -777,8 +777,8 @@ void TransferListWidget::displayListMenu(const QPoint&)
+     listMenu.addSeparator();
+     if (one_not_seed)
+         listMenu.addAction(&actionSet_download_limit);
+-    listMenu.addAction(&actionSet_max_ratio);
+     listMenu.addAction(&actionSet_upload_limit);
++    listMenu.addAction(&actionSet_max_ratio);
+     if (!one_not_seed && all_same_super_seeding && one_has_metadata) {
+         actionSuper_seeding_mode.setChecked(super_seeding_mode);
+         listMenu.addAction(&actionSuper_seeding_mode);
+diff --git a/src/icons.qrc b/src/icons.qrc
+index 693f25b..b93a209 100644
+--- a/src/icons.qrc
++++ b/src/icons.qrc
+@@ -370,5 +370,7 @@
+   <file>icons/oxygen/go-top.png</file>
+   <file>icons/oxygen/checked.png</file>
+   <file>icons/oxygen/office-chart-line.png</file>
++  <file>icons/skin/downloadLimit.png</file>
++  <file>icons/skin/uploadLimit.png</file>
+ </qresource>
+ </RCC>
+diff --git a/src/icons/skin/downloadLimit.png b/src/icons/skin/downloadLimit.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a8c1dc3e56c5ef3c15e607a837651b8a68ed7eed
+GIT binary patch
+literal 435
+zcmV;k0ZjghP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00001b5ch_0Itp)
+z=>Px#1ZP1_K>z@;j|==^1poj532;bRa{vGi!vFvd!vV){sAK>D02p*dSaefwW^{L9
+za%BK;VQFr3E^cLXAT%y8E;js(W8VM(0VGL8K~y+Tjgn7G0znwY_vFV2`W}9RptA{@
+z;89alvMzcNOo9&XsY4WavcQ9QOmUMy59>it63R{{)Tv#{lkhsv!oaw^4!iK%d70-A
+zyR&Pgx)DF5LtKUmTafL?SfB+eI3FZgpam)@4bv>pxPq`s&WcmjF8a9eR%m{|k?x(C
+zg_i_L%t=Ly>O~e$5E8=};=^0rhso~2iwv^zy$|!&soVUxqt<6b3q0^5BhNr`Tpnhq
+zyX<Iz2VV6MRc>yl*JS^^vOt4JhPi^!SuZ+zUbgAoneBi*Xz=I?z(H}4bQbQMzSk?k
+z7hx7Zk^@Z*?<)XDHT#nOH-8?Ov1iTQov^L|Ts<xB=}~|g;k^a;EF8Ih{1<Q<@CtC_
+d#2^rnu>}uDh&tUyzQzCm002ovPDHLkV1mrIw6OpH
+
+literal 0
+HcmV?d00001
+
+diff --git a/src/icons/skin/ratio.png b/src/icons/skin/ratio.png
+dissimilarity index 97%
+index 49ab7bb7d4246e96f4bb9b588fbe932f3542a76c..a7d83bc30a16f56cc2eb2408e2b0e23b1cf24162 100644
+GIT binary patch
+delta 747
+zcmV<H0u=r70{8`x8Gi-<001BJ|6u?C02y>eSaefwW^{L9a%BKPWN%_+AW3auXJt}l
+zVPtu6$z?nM00NpxL_t(|+Juu`NEA^N$IsmT&@dCN*iwsC(FY}aD2=uxQP<Xoa4|{<
+zdawtJkO+Gb46=v{3ykO?gEC7b@IhJ9)o@EG3TZRf$ZEILz<=5gU6j_{otZl`w>z^=
+zm}UOqaL$}_=RZHra2cR_eaSk+3(^6e7d=rd^<ZB5#PQ;&PKVwdx&4%ZRYV8@b(qs$
+zTXIK>&^Cg=9;aarVV-Q~cnM)aB0QF+c`SC*Ji%hg-DDqm@rOarS<9B0;Nm%7kVQ|%
+zr(4Hn=Jd23*MC)4?ra}+AI&x-<!sRF)3t!i7?Uh&I(+rHvsgAzWUIH>64&Wd^%}Ib
+z*}AV=MeM3G%O~P#Y^0HXquO-+qP5_rOso>1!N$t6FM)_76y<;LqU3e^LPL$Edy3@)
+zlBD>sG=jGJ3NblRN8*u=yH#Bj`n?EyLzRQ3lx4d~Ie)pkU_dT9Pn8q3sZhr2(h~H#
+zv}UWxrV?mNcR2HLM_Q0b@<JFuS_G0N;A^c0z(Q=tj`NkpuIYJ4h{fOKXOC~uapB<J
+zGFlD-?llv_e<Xx+5#sM8gnduM{tD&G_i8Lk?r*3XSV?)hu+X6pg#Dh$gkDo7D!K-+
+zFbdLm3x7ns0k?t}+X0m1J9jRp)X0?Dz?|xq=f9ib<Q^Ic_sB>V+A_Y<Uama2zeFI|
+z|E3iBEJPuo^ACpFsbe%JE*VB?OvnYp#CEvo^?26znX=LT7^UcHfv|UWG6~kugA-=;
+zFXYa*WsHcOMuIzxWWFs^rp!|b{v$yxCX#EWj%5Fna^)+pE*~bF4XLmxH47#`kHK8v
+z8~hCW!8;p;Gmod3)h?5wmra!<9K{fc2oPp5(8~l74wTHYB1CBK%Ck4jss>cMU~Ro!
+dZtzQh0RT&JXJbHbv@!qy002ovPDHLkV1kKzXdD0l
+
+literal 370
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbK}dw@@f>;G=n|3CmF@uOZYgn~Zq
+z|Gk_b?o8$XQ>8(S>GJ>gm;GOA`+u$f|DBot_Z9!2D)s;3od35s{r~j%|F6#=D^B<Q
+zpP}&o+Oq#!;{HF_^Z(Vw{|k)&e|qwNg5dvE9*O^RQ-MwrD+%%gI*pA>LQYZF#;>8X
+zcjAmS`;VVJ|Ni6sIeZmB6)m1Fjv*Csq34c^H5mxBK2!{HQRFzJ@+C?C{r?)Z$0s`P
+zznWKHdhoct^oMez(<<9^PyG#)W3bWAnzpnvBZ%Wv=Dg)bKUgRB`zN1aZFjlf>9<dD
+zUH+QBT#nTb54CB1aS*wic~z7tXz7%+v}GGie`&vbyG;Iv+77wH?1hJBT0C@}bKuQC
+Zh9eb1C%%@w>IS-p!PC{xWt~$(6964Aw2uG)
+
+diff --git a/src/icons/skin/uploadLimit.png b/src/icons/skin/uploadLimit.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..87ae05fa91a1739a111bcd3c714e83bd31306950
+GIT binary patch
+literal 406
+zcmV;H0crk;P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00001b5ch_0Itp)
+z=>Px#1ZP1_K>z@;j|==^1poj532;bRa{vGi!vFvd!vV){sAK>D02p*dSaefwW^{L9
+za%BK;VQFr3E^cLXAT%y8E;js(W8VM(0S8G$K~y+Tt&zP-!(bGKvqWf}TrK#6m*84=
+zL8y1&O$gqCNJ!D4v;_wj9R!!+D0XZ?9J;u;2s*ily16_(Z~V)b9zqZU51j9u=RM?0
+zA|RsE;7?fgpB8u|@jl}NGE{qx;WjO>#l^OjUyo|_9CxN+;u8I}7v3J><NXuW>S<Q+
+zgM$fkwC6|M4=nT)qMl}Qa+%_Sl;IvcPkc0!lgs48ElxM!;i?=ta)Sj)ylTJYmB}&O
+zos}a;t}@vI-6^fza=i;T?P|zX#<CG<{fO=|Kj@xi<Xy|^4VnR+MY!DY(X8PAe#CE*
+z7|u6+G%NVQAw$y1x=-Z=y%nFz3l0~2W)=`l0UML%XPV*aLI3~&07*qoM6N<$f(=Bd
+Aga7~l
+
+literal 0
+HcmV?d00001
+
+diff --git a/src/webui/www/private/index.html b/src/webui/www/private/index.html
+index 5432f88..50cc6ef 100644
+--- a/src/webui/www/private/index.html
++++ b/src/webui/www/private/index.html
+@@ -118,8 +118,8 @@
+                 <li><a href="#prioBottom"><img src="theme/go-bottom" alt="QBT_TR(Move to bottom)QBT_TR"/> QBT_TR(Move to bottom)QBT_TR</a></li>
+             </ul>
+         </li>
+-        <li class="separator"><a href="#DownloadLimit"><img src="images/skin/download.png" alt="QBT_TR(Limit download rate...)QBT_TR"/> QBT_TR(Limit download rate...)QBT_TR</a></li>
+-        <li><a href="#UploadLimit"><img src="images/skin/seeding.png" alt="QBT_TR(Limit upload rate...)QBT_TR"/> QBT_TR(Limit upload rate...)QBT_TR</a></li>
++        <li class="separator"><a href="#DownloadLimit"><img src="images/skin/downloadLimit.png" alt="QBT_TR(Limit download rate...)QBT_TR"/> QBT_TR(Limit download rate...)QBT_TR</a></li>
++        <li><a href="#UploadLimit"><img src="images/skin/uploadLimit.png" alt="QBT_TR(Limit upload rate...)QBT_TR"/> QBT_TR(Limit upload rate...)QBT_TR</a></li>
+         <li><a href="#SuperSeeding"><img src="theme/checked" alt="QBT_TR(Super seeding mode)QBT_TR"/> QBT_TR(Super seeding mode)QBT_TR</a></li>
+         <li class="separator"><a href="#SequentialDownload"><img src="theme/checked" alt="QBT_TR(Download in sequential order)QBT_TR"/> QBT_TR(Download in sequential order)QBT_TR</a></li>
+         <li><a href="#FirstLastPiecePrio"><img src="theme/checked" alt="QBT_TR(Download first and last pieces first)QBT_TR"/> QBT_TR(Download first and last pieces first)QBT_TR</a></li>
+-- 
+2.10.2.windows.1
+
