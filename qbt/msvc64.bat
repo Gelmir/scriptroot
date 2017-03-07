@@ -179,6 +179,24 @@ DEL /Q %SOURCEROOT%\qbittorrent\lupdate.exe
 :: Revert icon commit from 3.3.x branch 
 git apply -R %SCRIPTROOT%\qbt\patches\9999-Edit-speed-limits-and-upload-ratio-icons.patch
 IF ERRORLEVEL 1 GOTO FAIL
+:: Add New icons
+git apply %SCRIPTROOT%\qbt\patches\0001-Added-stylized-icons-for-the-main-actions-bar.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0002-60-of-the-svg-s-in-the-oxigen-folder-converted.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0003-converted-all-oxygen-icons-to-svg-files-added-grunt-.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0004-Added-the-last-of-the-skin-icons-svg.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0005-Added-png-converted-files-for-skin-icons.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0006-Delete-arrow-right.svg.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0007-Delete-collapse-expand.svg.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0008-resized-icons-to-32px-by-32px.patch
+IF ERRORLEVEL 1 GOTO FAIL
+git apply %SCRIPTROOT%\qbt\patches\0009-Update-icon-size-of-pngs-to-256px-make-pause-icon-wi.patch
 IF ERRORLEVEL 1 GOTO FAIL
 SET "QMAKESPEC="
 MD build

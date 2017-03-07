@@ -1,0 +1,29 @@
+From 4c4fb4436330525c805524b569384148dc9e0f84 Mon Sep 17 00:00:00 2001
+From: Bert Verhelst <verhelstbert@gmail.com>
+Date: Sat, 20 Feb 2016 13:51:45 +0100
+Subject: [PATCH 6/9] Delete arrow-right.svg
+
+This is a gif and won't be as crisp as the original
+---
+ src/icons/skin/build-icons/icons/arrow-right.svg | 9 ---------
+ 1 file changed, 9 deletions(-)
+ delete mode 100644 src/icons/skin/build-icons/icons/arrow-right.svg
+
+diff --git a/src/icons/skin/build-icons/icons/arrow-right.svg b/src/icons/skin/build-icons/icons/arrow-right.svg
+deleted file mode 100644
+index a1c0492..0000000
+--- a/src/icons/skin/build-icons/icons/arrow-right.svg
++++ /dev/null
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+-	 viewBox="0 5.3 27.6 21.4" enable-background="new 0 5.3 27.6 21.4" xml:space="preserve">
+-<path fill="#375273" d="M0.6,26.5l9.9-9.9c0.1-0.1,0.1-0.2,0.2-0.3l0,0c0.1-0.1,0.1-0.2,0.1-0.3c0-0.1,0-0.2-0.1-0.3l0,0
+-	c0-0.1-0.1-0.2-0.2-0.3L0.6,5.5C0.4,5.3,0.3,5.3,0.2,5.3C0.1,5.4,0,5.5,0,5.7l0,9.9l0,0.7l0,10c0,0.2,0.1,0.4,0.2,0.4
+-	C0.3,26.8,0.4,26.7,0.6,26.5z"/>
+-</svg>
+-- 
+2.10.2.windows.1
+
