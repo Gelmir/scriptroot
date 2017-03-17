@@ -22,7 +22,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvar
 IF EXIST %SOURCEROOT%\Zlib RD /S /Q %SOURCEROOT%\Zlib
 MD %SOURCEROOT%\Zlib
 CD %SOURCEROOT%\Zlib
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\zlib-1.2.10.7z
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\zlib-1.2.11.7z
 :: Time to edit Makefiles
 sed -b -e "s/\(^ASFLAGS = \).*\(-Zi \$(LOC)\)/\1\2/" -e "s/\(^AS = \).*/\1ml64/" -e "s/\(^CFLAGS  = \).*\(-Zi.*\$(LOC)\)/\1 -nologo -MDd -Od -W3 -favor\:blend -GR- -Y- -MP -FS -EHs-c- \2/" -e "s/\(^LDFLAGS = \).*/\1-nologo -debug -incremental\:no/" .\win32\Makefile.msc < .\win32\Makefile.msc > .\win32\Makefile.msc.%SEDEXT%
 MOVE /Y .\win32\Makefile.msc.%SEDEXT% .\win32\Makefile.msc
