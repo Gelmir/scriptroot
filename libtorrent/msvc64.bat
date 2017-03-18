@@ -20,7 +20,7 @@ SET "INST_DIR=%BUILDROOT%\libtorrent\libtorrent64"
 IF EXIST %INST_DIR% RD /S /Q %INST_DIR%
 CALL %SCRIPTROOT%\virgin.bat backup
 SET CWD=%CD%
-CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\vcvarsx86_amd64.bat"
+CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
