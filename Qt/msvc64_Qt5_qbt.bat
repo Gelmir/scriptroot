@@ -29,7 +29,7 @@ CD .\qtbase
 git apply %SCRIPTROOT%\Qt\patches\qtbase.git-a103992f49045323a3aaa4970eb1ee5f65a378dd.patch
 IF ERRORLEVEL 1 GOTO FAIL
 CD ..\
-CALL configure.bat -release -shared -opensource -confirm-license -platform win32-msvc2015 -ltcg -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -opengl desktop -no-angle -no-openvg -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-audio-backend -no-wmf-backend -no-qml-debug -qt-style-fusion -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -directwrite -qmake -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR% -skip qtwebengine
+CALL configure.bat -release -shared -opensource -confirm-license -platform win32-msvc2017 -ltcg -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -sql-sqlite -no-sql-sqlite2 -no-sql-ibase -opengl desktop -no-angle -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-qml-debug -style-fusion -style-windows -style-windowsxp -style-windowsvista -directwrite -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR% -skip qtwebengine
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j8
 IF ERRORLEVEL 1 GOTO FAIL
