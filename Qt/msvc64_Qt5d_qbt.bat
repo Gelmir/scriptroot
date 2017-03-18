@@ -24,6 +24,10 @@ CD %SOURCEROOT%\Qt
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.8.0.7z -o%SOURCEROOT%\Qt
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\jom;%SOURCEROOT%\Qt\qtbase\lib;%PATH%"
+CD .\qtbase
+git apply %SCRIPTROOT%\Qt\patches\qtbase.git-a103992f49045323a3aaa4970eb1ee5f65a378dd.patch
+IF ERRORLEVEL 1 GOTO FAIL
+CD ..\
 CALL configure.bat -debug -shared -opensource -confirm-license -platform win32-msvc2015 -no-ltcg -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -qt-sql-sqlite -no-sql-sqlite2 -no-sql-ibase -opengl desktop -no-angle -no-openvg -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -rtti -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-audio-backend -no-wmf-backend -no-qml-debug -qt-style-fusion -qt-style-windows -qt-style-windowsxp -qt-style-windowsvista -no-native-gestures -directwrite -qmake -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64d\include -L %BUILDROOT%\OpenSSL\OpenSSL64d\lib -prefix %INST_DIR% -skip qtwebengine
 IF ERRORLEVEL 1 GOTO FAIL
 jom -j8
