@@ -23,6 +23,7 @@ MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.1.2.7z -o%SOURCEROOT%\libtorrent
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
+ECHO using msvc : : "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX64\x64\cl.exe" ; > project-config.jam
 :: Disable asserts and invariant checks, we only need symbols; about invariant checks btw: http://kaba.hilvi.org/pastel/pastel/sys/ensure.htm
 bjam -j8 -q --abbreviate-paths --toolset=msvc --prefix=%INST_DIR% logging=off asserts=off windows-version=vista invariant-checks=off crypto=openssl boost-link=shared export-extra=on link=shared runtime-link=shared variant=debug debug-symbols=on threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off "cflags=/Zi /FS /favor:blend" "linkflags=/NOLOGO /DEBUG /INCREMENTAL:NO" "include=%BUILDROOT%\OpenSSL\OpenSSL64d\include" "include=%BUILDROOT%\Boost\Boost64d\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64d\lib" "library-path=%BUILDROOT%\Boost\Boost64d\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL

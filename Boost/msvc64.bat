@@ -24,10 +24,12 @@ CD %SOURCEROOT%\Boost
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.63.7z -o%SOURCEROOT%\Boost
 IF EXIST %BUILDROOT%\Boost\bjam64 RD /S /Q %BUILDROOT%\Boost\bjam64
 CD .\tools\build
+ECHO using msvc : : "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX64\x64\cl.exe" ; > project-config.jam
 CALL .\bootstrap.bat
 IF ERRORLEVEL 1 GOTO FAIL
 .\b2.exe --toolset=msvc architecture=x86 address-model=64 --prefix=%BUILDROOT%\Boost\bjam64 link=shared runtime-link=shared variant=release debug-symbols=off warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:AMD64" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" install
 IF ERRORLEVEL 1 GOTO FAIL
+COPY /Y .\project-config.jam ..\..\
 CD ..\..\
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 @ECHO OFF

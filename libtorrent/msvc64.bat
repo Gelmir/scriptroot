@@ -26,6 +26,7 @@ MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.1.2.7z -o%SOURCEROOT%\libtorrent
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
+ECHO using msvc : : "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX64\x64\cl.exe" ; > project-config.jam
 IF DEFINED LOG (
     :: Doesn't build with utp-log=on, disable for now
     SET "LOG=disk-stats=on utp-log=off logging=on"
