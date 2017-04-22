@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary
 IF EXIST %SOURCEROOT%\Boost RD /S /Q %SOURCEROOT%\Boost
 MD %SOURCEROOT%\Boost
 CD %SOURCEROOT%\Boost
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.63.7z -o%SOURCEROOT%\Boost
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\boost-1.64.7z -o%SOURCEROOT%\Boost
 IF EXIST %BUILDROOT%\Boost\bjam64 RD /S /Q %BUILDROOT%\Boost\bjam64
 CD .\tools\build
 ECHO using msvc : : "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX64\x64\cl.exe" ; > project-config.jam
