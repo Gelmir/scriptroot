@@ -171,7 +171,7 @@ IF %USE_LT11% == 1 (
 :: NOOP
 ECHO.
 SET "PATH=%BUILDROOT%\Qt\Qt5_x64_qbt\bin;%BUILDROOT%\jom;%PATH%"
-SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc2013"
+SET "QMAKESPEC=%BUILDROOT%\Qt\Qt5_x64_qbt\mkspecs\win32-msvc"
 COPY /Y %BUILDROOT%\Qt\Qt5_x64_qbt\bin\lupdate.exe %SOURCEROOT%\qbittorrent
 %SOURCEROOT%\qbittorrent\lupdate.exe -recursive -no-obsolete ./qbittorrent.pro
 IF ERRORLEVEL 1 GOTO FAIL
