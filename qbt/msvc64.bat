@@ -247,7 +247,7 @@ COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\msvcp140
 COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\concrt140.dll" %INST_DIR%\
 COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\vccorlib140.dll" %INST_DIR%\
 COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\vcruntime140.dll" %INST_DIR%\
-COPY /Y "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\dbghelp.dll" %INST_DIR%\
+COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x64\dbghelp.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
 unix2dos -ascii %INST_DIR%\LICENSE.txt
