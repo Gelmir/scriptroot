@@ -198,6 +198,9 @@ git apply %SCRIPTROOT%\qbt\patches\0008-resized-icons-to-32px-by-32px.patch
 IF ERRORLEVEL 1 GOTO FAIL
 git apply %SCRIPTROOT%\qbt\patches\0009-Update-icon-size-of-pngs-to-256px-make-pause-icon-wi.patch
 IF ERRORLEVEL 1 GOTO FAIL
+:: Fix Build failure
+git apply %SCRIPTROOT%\qbt\patches\0001-Fix-LogMsg-not-found.patch
+IF ERRORLEVEL 1 GOTO FAIL
 SET "QMAKESPEC="
 MD build
 CD build
