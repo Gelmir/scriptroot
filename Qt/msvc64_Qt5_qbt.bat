@@ -22,7 +22,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary
 IF EXIST %SOURCEROOT%\Qt RD /S /Q %SOURCEROOT%\Qt
 MD %SOURCEROOT%\Qt
 CD %SOURCEROOT%\Qt
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.9.0.7z -o%SOURCEROOT%\Qt .* configure* LGPL* LICENSE* qt.pro README gnuwin32 qtbase qtimageformats qttools qttranslations qtwinextras
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\QT-5.9.1.7z -o%SOURCEROOT%\Qt .* configure* LGPL* LICENSE* qt.pro README gnuwin32 qtbase qtimageformats qttools qttranslations qtwinextras
 IF ERRORLEVEL 1 GOTO FAIL
 SET "PATH=%BUILDROOT%\jom;%PATH%"
 CALL configure.bat -release -shared -opensource -confirm-license -platform win32-msvc2017 -ltcg -no-sql-mysql -no-sql-psql -no-sql-oci -no-sql-odbc -no-sql-tds -no-sql-db2 -sql-sqlite -no-sql-sqlite2 -no-sql-ibase -opengl desktop -no-angle -qt-zlib -qt-libpng -qt-libjpeg -no-icu -qt-pcre -qt-freetype -no-incredibuild-xge -plugin-manifests -no-mp -sse2 -no-sse3 -no-ssse3 -no-sse4.1 -no-sse4.2 -no-avx -no-avx2 -openssl -no-dbus -no-qml-debug -style-fusion -style-windows -style-windowsxp -style-windowsvista -directwrite -nomake examples -nomake tests -no-warnings-are-errors -I %BUILDROOT%\OpenSSL\OpenSSL64\include -L %BUILDROOT%\OpenSSL\OpenSSL64\lib -prefix %INST_DIR% -skip qtwebengine
