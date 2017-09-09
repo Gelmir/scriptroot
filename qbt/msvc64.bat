@@ -246,10 +246,10 @@ COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_system.dll %INST_DIR%\
 COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_chrono.dll %INST_DIR%\
 COPY /Y %BUILDROOT%\Boost\Boost64\lib\boost_random.dll %INST_DIR%\
 :: Copy VC++ 2012 x64 Redist DLLs
-COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\msvcp140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\concrt140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\vccorlib140.dll" %INST_DIR%\
-COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.10.25008\x64\Microsoft.VC150.CRT\vcruntime140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.11.25325\x64\Microsoft.VC141.CRT\msvcp140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.11.25325\x64\Microsoft.VC141.CRT\concrt140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.11.25325\x64\Microsoft.VC141.CRT\vccorlib140.dll" %INST_DIR%\
+COPY /Y "%VCINSTALLDIR%\Redist\MSVC\14.11.25325\x64\Microsoft.VC141.CRT\vcruntime140.dll" %INST_DIR%\
 COPY /Y "C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x64\dbghelp.dll" %INST_DIR%\
 :: Copy License
 COPY /Y %SOURCEROOT%\qbittorrent\COPYING %INST_DIR%\LICENSE.txt
