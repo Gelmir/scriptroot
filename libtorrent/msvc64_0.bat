@@ -27,6 +27,8 @@ CD %SOURCEROOT%\libtorrent
 "C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.0.11.7z -o%SOURCEROOT%\libtorrent
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 IF DEFINED LOG SET "LOG=disk-stats=on logging=default"
+git apply %SCRIPTROOT%\libtorrent\patches\0001-use-the-official-boost.config-header.patch
+IF ERRORLEVEL 1 GOTO FAIL
 bjam -j8 -q --toolset=msvc --prefix=%INST_DIR% %LOG% boost=system boost-link=shared link=shared runtime-link=shared variant=release debug-symbols=off resolve-countries=on full-stats=on export-extra=on ipv6=on character-set=unicode geoip=static encryption=openssl windows-version=vista threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP

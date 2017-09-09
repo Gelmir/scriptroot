@@ -32,6 +32,8 @@ IF DEFINED LOG (
 ) ELSE (
     SET "LOG=disk-stats=off utp-log=off logging=off"
 )
+git apply %SCRIPTROOT%\libtorrent\patches\0001-use-the-official-boost.config-header.patch
+IF ERRORLEVEL 1 GOTO FAIL
 bjam -j8 -q --toolset=msvc --prefix=%INST_DIR% %LOG% asserts=off windows-version=vista invariant-checks=off crypto=openssl boost-link=shared export-extra=on link=shared runtime-link=shared variant=release debug-symbols=off threading=multi address-model=64 host-os=windows target-os=windows embed-manifest=on architecture=x86 warnings=off warnings-as-errors=off inlining=full optimization=speed "cflags=/O2 /GL /favor:blend" "linkflags=/NOLOGO /OPT:REF /OPT:ICF=5 /LTCG" "include=%BUILDROOT%\OpenSSL\OpenSSL64\include" "include=%BUILDROOT%\Boost\Boost64\include" "library-path=%BUILDROOT%\OpenSSL\OpenSSL64\lib" "library-path=%BUILDROOT%\Boost\Boost64\lib" "define=BOOST_ALL_NO_LIB" install
 IF ERRORLEVEL 1 GOTO FAIL
 GOTO CLEANUP
