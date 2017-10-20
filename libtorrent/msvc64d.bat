@@ -21,7 +21,7 @@ CALL "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary
 IF EXIST %SOURCEROOT%\libtorrent RD /S /Q %SOURCEROOT%\libtorrent
 MD %SOURCEROOT%\libtorrent
 CD %SOURCEROOT%\libtorrent
-"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.1.4.7z -o%SOURCEROOT%\libtorrent
+"C:\Program Files\7-Zip\7z.exe" x %ARCHIVES%\libtorrent-1.1.5.7z -o%SOURCEROOT%\libtorrent
 SET "PATH=%BUILDROOT%\Boost\bjam64\bin;%PATH%"
 git apply %SCRIPTROOT%\libtorrent\patches\0001-use-the-official-boost.config-header.patch
 IF ERRORLEVEL 1 GOTO FAIL
