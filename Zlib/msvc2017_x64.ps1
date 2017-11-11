@@ -38,13 +38,28 @@ Check-ReturnCode $?
 
 (Get-Content -Path ".\win32\Makefile.msc") `
     -replace "(^ASFLAGS = ).*(\$\(LOC\))", '$1$2 -nologo' `
-    -replace "(^AS = ).*", '$1ml64' `
-    -replace "(^CFLAGS\s+= ).*(\$\(LOC\))", '$1-nologo -MD -O2 -W3 -favor:blend -GL -GR- -Y- -MP -EHs-c- $2' `
-    -replace "(^LDFLAGS = ).*", '$1-nologo -incremental:no -opt:ref -opt:icf=5 -ltcg' `
-    -replace "(^ARFLAGS = .*)", '$1 -ltcg' |
+    -replace "(^AS = ).*", '$1ml64' |
     Out-File -Force -FilePath ".\win32\Makefile.msc"
 
-& jom @("-nologo", "-j8", "-f", "`".\win32\Makefile.msc`"", "AS=ml64", "LOC=`"-DASMV -DASMINF -DNDEBUG -I.`"", "OBJA=`"inffasx64.obj gvmat64.obj inffas8664.obj`"")
+$jomDefines = ""
+if ($ReleaseType -eq "Release") {
+    (Get-Content -Path ".\win32\Makefile.msc") `
+        -replace "(^CFLAGS\s+= ).*(\$\(LOC\))", '$1-nologo -MD -O2 -W3 -favor:blend -GL -GR- -Y- -MP -EHs-c- $2' `
+        -replace "(^LDFLAGS = ).*", '$1-nologo -incremental:no -opt:ref -opt:icf=5 -ltcg' `
+        -replace "(^ARFLAGS = .*)", '$1 -ltcg' |
+        Out-File -Force -FilePath ".\win32\Makefile.msc"
+
+        $jomDefines = "LOC=`"-DASMV -DASMINF -DNDEBUG -I.`""
+} else { # Debug
+    (Get-Content -Path ".\win32\Makefile.msc") `
+        -replace "(^CFLAGS\s+= ).*(\$\(LOC\))", '$1-nologo -MDd -Od -W3 -favor:blend -GR- -Y- -MP -FS -EHs-c- $2' `
+        -replace "(^LDFLAGS = ).*", '$1-nologo -incremental:no -debug' |
+        Out-File -Force -FilePath ".\win32\Makefile.msc"
+
+        $jomDefines = "LOC=`"-DASMV -DASMINF -DDEBUG -I.`""
+}
+
+& jom @("-nologo", "-j8", "-f", "`".\win32\Makefile.msc`"", "AS=ml64", "$jomDefines", "OBJA=`"inffasx64.obj gvmat64.obj inffas8664.obj`"")
 Check-ReturnCode $?
 & jom @("-nologo", "-j1", "-f", "`".\win32\Makefile.msc`"", "test")
 Check-ReturnCode $?
